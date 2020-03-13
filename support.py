@@ -4,8 +4,13 @@ import os
 import random
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/ticket'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
 CORS(app)
 
 import requests
@@ -13,19 +18,22 @@ import requests
 class Ticket(db.Model):
     __tablename__ = 'book'
 
-    ticketid = db.Column(db.String(13), primary_key=True)
-    title = db.Column(db.String(64), nullable=False)
-    price = db.Column(db.Float(precision=2), nullable=False)
-    availability = db.Column(db.Integer)
+    ticketid = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    issueTitle = db.Column(db.String(100), nullable=False)
+    issueDetails = db.Column(db.String(), nullable=False)
+    status = db.Column(db.String(10), nullable=False)
+    dateOpen = db.Column(db.DateTime(), nullable=False)
+    userID = db.Column(db.Integer, nullable=False)
 
-    def __init__(self, isbn13, title, price, availability):
-        self.isbn13 = isbn13
-        self.title = title
-        self.price = price
-        self.availability = availability
+    def __init__(self, issueTitle, issueDetails, status, dateOpen, userID):
+        self.issueTitle = issueTitle
+        self.issueDetails = issueDetails
+        self.status = status
+        self.dateOpen = dateOpen
+        self.userID = userID
 
     def json(self):
-        return {"isbn13": self.isbn13, "title": self.title, "price": self.price, "availability": self.availability}
+        return {"ticketid": self.ticketid, "issueTitle": self.issueTitle, "issueDetails": self.issueDetails, "status": self.status, "dateOpen": self.dateOpen, "userID": self.userID}
 
 
 @app.route("/support", methods=['POST'])
