@@ -10,10 +10,10 @@ CORS(app)
 
 import requests
 
-class Book(db.Model):
+class Ticket(db.Model):
     __tablename__ = 'book'
 
-    isbn13 = db.Column(db.String(13), primary_key=True)
+    ticketid = db.Column(db.String(13), primary_key=True)
     title = db.Column(db.String(64), nullable=False)
     price = db.Column(db.Float(precision=2), nullable=False)
     availability = db.Column(db.Integer)
