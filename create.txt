@@ -1,0 +1,19 @@
+drop database if exists game;
+create database game;
+use game;
+
+create table game (
+	id integer auto_increment primary key,
+	name varchar(100) NOT NULL,
+	description varchar(500) NOT NULL,
+	price decimal (4,2) NOT NULL,
+	category char(100) NOT NULL,
+	imageLink varchar(100) NOT NULL
+);
+
+
+insert into game (name, description, price, category, imageLink) values ('Left4Dead2','Set during the aftermath of an apocalyptic pandemic, Left 4 Dead 2 focuses on four new Survivors, fighting against hordes of zombies, known as the Infected, who develop severe psychosis and act extremely aggressive.','8.99','Shooter','img/game/l4d2.jpg');
+insert into game (name, description, price, category, imageLink) values ('Grand Theft Auto v','Grand Theft Auto V is an action-adventure game played from either a third-person or first-person perspective. Players complete missions—linear scenarios with set objectives—to progress through the story. Outside of the missions, players may freely roam the open world.','10.99','Shooter','img/game/6.jpg');
+insert into game (name, description, price, category, imageLink) values ('The Witcher 3: Wild Hunt','The Witcher 3: Wild Hunt is a 2015 action role-playing game developed and published by CD Projekt and based on The Witcher series of fantasy novels by Andrzej Sapkowski. It is the sequel to the 2011 game The Witcher 2: Assassins of Kings, played in an open world with a third-person perspective.','12.99','Action','img/game/wh.jpg');
+insert into game (name, description, price, category, imageLink) values ('The Elder Scrolls V: Skyrim','The Elder Scrolls V: Skyrim is an action role-playing video game developed by Bethesda Game Studios and published by Bethesda Softworks.','10.99','Action','img/game/tesv.jpg');
+insert into game (name, description, price, category, imageLink) values ('Borderland 3','The original shooter-looter returns, packing bazillions of guns and a mayhem-fueled adventure! Blast through new worlds & enemies and save your home from the most ruthless cult leaders in the galaxy.','33.29','Action','img/game/bl3.jpg');

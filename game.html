@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+	<title>GAME YO</title>
+	<meta charset="UTF-8">
+	<meta name="description" content="Game Warrior Template">
+	<meta name="keywords" content="warrior, game, creative, html">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Favicon -->   
+	<link href="img/favicon.ico" rel="shortcut icon"/>
+
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i" rel="stylesheet">
+	<script 
+    src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script
+    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+    integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+    crossorigin="anonymous"></script>
+    
+    <script 
+    src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+    integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+    crossorigin="anonymous"></script>
+	<!-- Stylesheets -->
+	<link rel="stylesheet" href="css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="css/font-awesome.min.css"/>
+	<link rel="stylesheet" href="css/owl.carousel.css"/>
+	<link rel="stylesheet" href="css/style.css"/>
+	<link rel="stylesheet" href="css/animate.css"/>
+
+
+	<!--[if lt IE 9]>
+	  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+	  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+
+</head>
+<body>
+	<!-- Page Preloder -->
+	<div id="preloder">
+		<div class="loader"></div>
+	</div>
+
+	<!-- Header section -->
+	<header class="header-section">
+		<div class="container">
+			<!-- logo -->
+			<a class="site-logo" href="index.html">
+				<img src="img/logo.png" alt="">
+			</a>
+			<div class="user-panel">
+				<a href="#">Login</a>  /  <a href="#">Register</a>
+			</div>
+			<!-- responsive -->
+			<div class="nav-switch">
+				<i class="fa fa-bars"></i>
+			</div>
+			<!-- site menu -->
+			<nav class="main-menu">
+				<ul>
+					<li><a href="home.html">Home</a></li>
+					<li><a href="review.html">Games</a></li>
+					<li><a href="contact.html">Contact</a></li>
+					<li><a href="cart.html">Cart</a></li>
+				</ul>
+			</nav>
+		</div>
+	</header>
+	<!-- Header section end -->
+
+	<!-- Page section -->
+	<section class="page-section review-page spad">
+		<div class="container">
+			<div class="row">
+
+
+
+
+				<!---->
+				<!--<div class="col-md-6">
+					<div class="review-item">
+						<div class="review-cover set-bg" data-setbg="img/game/5.jpg">
+						</div>
+						<div class="review-text">
+							<h4>Overwatch Halloween</h4> 
+				
+							<p> Description.</p> 
+							<p> $8.99</p> 
+						</div>
+						<div class="text-center pt-4">
+							<button class="site-btn btn-sm">Add to cart</button>
+						</div>
+					</div>
+				</div>
+				-->
+				
+
+
+
+
+			</div>
+		</div>
+	</section>
+	<!-- Page section end -->
+
+
+	
+	<!-- Footer section -->
+	<footer class="footer-section">
+		<div class="container">
+			<ul class="footer-menu">
+				<li><a href="index.html">Home</a></li>
+				<li><a href="review.html">Games</a></li>
+				<li><a href="contact.html">Contact</a></li>
+			</ul>
+	
+
+
+	<!--====== Javascripts & Jquery ======-->
+	<script src="js/jquery-3.2.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/owl.carousel.min.js"></script>
+	<script src="js/jquery.marquee.min.js"></script>
+	<script src="js/main.js"></script>
+    </body>
+
+
+<script>
+$.ajax({
+    method: "GET",
+    url: "http://127.0.0.1:5000/game",
+    context: "application/json",
+    success: function (data){
+		var rows = "";
+		var games = data.games; 
+                for (var game of games) {
+					//var test = g
+                    eachRow =
+						// <div class="review-cover set-bg" data-setbg="img/review/5.jpg"><!-- IMAGE URL--><div>
+						"<div class = 'col-md-6'>" +
+						"<div class = 'review-item'>" + 
+						"<img src=" + game.imageLink + " alt=Italian Trulli>" +
+                        "<h4>" + game.name + "</h4>" +
+                        "<p>" + game.description + "</p>" +
+                        "<p>" + game.price + "</p>" +
+						"<button class='site-btn btn-sm'>Add to cart</button>" + 
+						"<div></div>";
+
+                    rows += eachRow + "</div></div>";
+                }
+                // add all the rows to the table
+                $('.row').append(rows);
+    }
+});
+
+/* SCRIPT NOT IN USE
+$(async() => {           
+        // Change serviceURL to your own
+        var serviceURL = "http://127.0.0.1:5000/game";
+ 
+        try {
+            const response =
+             await fetch(
+               serviceURL, { method: 'GET' }
+            );
+            const data = await response.json();
+            var games = data.games; //
+ 
+            // array or array.length are false
+            if (!games || !games.length) {
+                showError('Game list empty or undefined.')
+            } else {
+                var rows = "";
+                for (const game of games) {
+                    eachRow =
+							// <div class="review-cover set-bg" data-setbg="img/review/5.jpg"><!-- IMAGE URL--><div>
+                        "<p>" + game.name + "</p>" +
+                        "<p>" + game.description + "</p>" +
+                        "<p>" + game.price + "</td>" ;
+
+                    rows += "<div class='col-md-6'><div class='review-item'>" + eachRow + "</div></div>";
+                }
+                // add all the rows to the table
+                $('.row').append(rows);
+            }
+        } catch (error) {
+            // Errors when calling the service; such as network error, 
+            // service offline, etc
+            showError
+          ('There is a problem retrieving games data, please try again later.<br />'+error);
+           
+        } // error
+    });*/
+</script>
+</html>

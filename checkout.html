@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Game Warrior Template</title>
+	<meta charset="UTF-8">
+	<meta name="description" content="Game Warrior Template">
+	<meta name="keywords" content="warrior, game, creative, html">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Favicon -->   
+	<link href="img/favicon.ico" rel="shortcut icon"/>
+
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i" rel="stylesheet">
+
+	<!-- Stylesheets -->
+	<link rel="stylesheet" href="css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="css/font-awesome.min.css"/>
+	<link rel="stylesheet" href="css/owl.carousel.css"/>
+	<link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/animate.css"/>
+    <link rel="stylesheet" type="text/css" href="styles/bootstrap-4.1.2/bootstrap.min.css">
+<link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="styles/checkout.css">
+<link rel="stylesheet" type="text/css" href="styles/checkout_responsive.css">
+
+
+	<!--[if lt IE 9]>
+	  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+	  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+
+</head>
+<body>
+	<!-- Page Preloder -->
+	<div id="preloder">
+		<div class="loader"></div>
+	</div>
+
+	<!-- Header section -->
+	<header class="header-section">
+		<div class="container">
+			<!-- logo -->
+			<a class="site-logo" href="index.html">
+				<img src="img/logo.png" alt="">
+			</a>
+			<div class="user-panel">
+				<a href="#">Login</a>  /  <a href="#">Register</a>
+			</div>
+			<!-- responsive -->
+			<div class="nav-switch">
+				<i class="fa fa-bars"></i>
+			</div>
+			<!-- site menu -->
+			<nav class="main-menu">
+				<ul>
+					<li><a href="home.html">Home</a></li>
+					<li><a href="review.html">Games</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="cart.html">Cart</a></li>
+				</ul>
+			</nav>
+		</div>
+	</header>
+	<!-- Header section end -->
+
+	<!-- Page section -->
+    <div class="checkout">
+        <div class="container">
+            <div class="row">
+                
+                <!-- Billing -->
+                <div class="col-lg-6">
+                    <div class="billing">
+                        <div class="checkout_title">Billing</div>
+                        <div class="checkout_form_container">
+                            <form action="#" id="checkout_form" class="checkout_form">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <!-- Name -->
+                                        <input type="text" id="checkout_name" class="checkout_input" placeholder="First Name" required="required">
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <!-- Last Name -->
+                                        <input type="text" id="checkout_last_name" class="checkout_input" placeholder="Last Name" required="required">
+                                    </div>
+                                </div>
+                                <div>
+                                    <!-- Company -->
+                                    <input type="text" id="checkout_company" placeholder="Company" class="checkout_input">
+                                </div>
+                                <div>
+                                    <!-- Country -->
+                                    <select name="checkout_country" id="checkout_country" class="dropdown_item_select checkout_input" require="required">
+                                        <option>Country</option>
+                                        <option>Lithuania</option>
+                                        <option>Sweden</option>
+                                        <option>UK</option>
+                                        <option>Italy</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <!-- Address -->
+                                    <input type="text" id="checkout_address" class="checkout_input" placeholder="Address Line 1" required="required">
+                                    <input type="text" id="checkout_address_2" class="checkout_input checkout_address_2" placeholder="Address Line 2" required="required">
+                                </div>
+                                <div>
+                                    <!-- Zipcode -->
+                                    <input type="text" id="checkout_zipcode" class="checkout_input" placeholder="Zip Code" required="required">
+                                </div>
+                                <div>
+                                    <!-- City / Town -->
+                                    <select name="checkout_city" id="checkout_city" class="dropdown_item_select checkout_input" require="required">
+                                        <option>City / Town</option>
+                                        <option>City</option>
+                                        <option>City</option>
+                                        <option>City</option>
+                                        <option>City</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <!-- Province -->
+                                    <select name="checkout_province" id="checkout_province" class="dropdown_item_select checkout_input" require="required">
+                                        <option>Province</option>
+                                        <option>Province</option>
+                                        <option>Province</option>
+                                        <option>Province</option>
+                                        <option>Province</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <!-- Phone no -->
+                                    <input type="phone" id="checkout_phone" class="checkout_input" placeholder="Phone No." required="required">
+                                </div>
+                                <div>
+                                    <!-- Email -->
+                                    <input type="phone" id="checkout_email" class="checkout_input" placeholder="Email" required="required">
+                                </div>
+                                <div class="checkout_extra">
+                                    <ul>
+                                        <li class="billing_info d-flex flex-row align-items-center justify-content-start">
+                                            <label class="checkbox_container">
+                                                <input type="checkbox" id="cb_1" name="billing_checkbox" class="billing_checkbox">
+                                                <span class="checkbox_mark"></span>
+                                                <span class="checkbox_text">Terms and conditions</span>
+                                            </label>
+                                        </li>
+                                        <li class="billing_info d-flex flex-row align-items-center justify-content-start">
+                                            <label class="checkbox_container">
+                                                <input type="checkbox" id="cb_2" name="billing_checkbox" class="billing_checkbox">
+                                                <span class="checkbox_mark"></span>
+                                                <span class="checkbox_text">Create an account</span>
+                                            </label>
+                              
+                                        </li>
+                                    </ul>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cart Total -->
+                <div class="col-lg-6 cart_col">
+                    <div class="cart_total">
+                        <div class="cart_extra_content cart_extra_total">
+                            <div class="checkout_title">Cart Total</div>
+                            <ul class="cart_extra_total_list">
+                                <li class="d-flex flex-row align-items-center justify-content-start">
+                                    <div class="cart_extra_total_title">Subtotal</div>
+                                    <div class="cart_extra_total_value ml-auto">$29.90</div>
+                                </li>
+                                <li class="d-flex flex-row align-items-center justify-content-start">
+                                    <div class="cart_extra_total_title">Shipping</div>
+                                    <div class="cart_extra_total_value ml-auto">Free</div>
+                                </li>
+                                <li class="d-flex flex-row align-items-center justify-content-start">
+                                    <div class="cart_extra_total_title">Total</div>
+                                    <div class="cart_extra_total_value ml-auto">$29.90</div>
+                                </li>
+                            </ul>
+                            <div class="payment_options">
+                                <div class="checkout_title">Payment</div>
+                                <ul>
+                                    <li class="shipping_option d-flex flex-row align-items-center justify-content-start">
+                                        <label class="radio_container">
+                                            <input type="radio" id="radio_1" name="payment_radio" class="payment_radio">
+                                            <span class="radio_mark"></span>
+                                            <span class="radio_text">Paypal</span>
+                                        </label>
+                                    </li>
+                                    <li class="shipping_option d-flex flex-row align-items-center justify-content-start">
+                                        <label class="radio_container">
+                                            <input type="radio" id="radio_2" name="payment_radio" class="payment_radio">
+                                            <span class="radio_mark"></span>
+                                            <span class="radio_text">Cash on Delivery</span>
+                                        </label>
+                                    </li>
+                                    <li class="shipping_option d-flex flex-row align-items-center justify-content-start">
+                                        <label class="radio_container">
+                                            <input type="radio" id="radio_3" name="payment_radio" class="payment_radio" checked>
+                                            <span class="radio_mark"></span>
+                                            <span class="radio_text">Credit Card</span>
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="cart_text">
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pharetra tempor so dales. Phasellus sagittis auctor gravida. Integ er bibendum sodales arcu id te mpus. Ut consectetur lacus.</p>
+                            </div>
+                            <div class="checkout_button trans_200"><a href="checkout.html">place order</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	<!-- Page section end -->
+
+	<!-- Footer section -->
+	<footer class="footer-section">
+		<div class="container">
+			<ul class="footer-menu">
+				<li><a href="index.html">Home</a></li>
+				<li><a href="review.html">Games</a></li>
+
+				<li><a href="contact.html">Contact</a></li>
+			</ul>
+	
+
+
+	<!--====== Javascripts & Jquery ======-->
+	<script src="js/jquery-3.2.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/owl.carousel.min.js"></script>
+	<script src="js/jquery.marquee.min.js"></script>
+	<script src="js/main.js"></script>
+
+
+	<!-- load for map -->
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWTIlluowDL-X4HbYQt3aDw_oi2JP0Krc&sensor=false"></script>
+	<script src="js/map.js"></script>
+
+    </body>
+</html>
