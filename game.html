@@ -70,13 +70,18 @@
 	<!-- Header section end -->
 
 	<!-- Page section -->
+
+
 	<section class="page-section review-page spad">
 		<div class="container">
+			<h4 class="comment-title">Browse Games</h4>
 			<div class="row">
 
+				
 
-
-
+	<input class="form-control mb-4" id="gameSearch" type="text"
+		  placeholder="Type something to search games">
+		 
 				<!---->
 				<!--<div class="col-md-6">
 					<div class="review-item">
@@ -95,10 +100,7 @@
 				</div>
 				-->
 				
-
-
-
-
+			</tbody>
 			</div>
 		</div>
 	</section>
@@ -135,17 +137,17 @@ $.ajax({
 		var rows = "";
 		var games = data.games; 
                 for (var game of games) {
-					//var test = g
                     eachRow =
 						// <div class="review-cover set-bg" data-setbg="img/review/5.jpg"><!-- IMAGE URL--><div>
 						"<div class = 'col-md-6'>" +
 						"<div class = 'review-item'>" + 
-						"<img src=" + game.imageLink + " alt=Italian Trulli>" +
+						"<div id ='sGame'>" +
+						"<img src=" + game.imageLink + " alt=game>" +
                         "<h4>" + game.name + "</h4>" +
                         "<p>" + game.description + "</p>" +
-                        "<p>" + game.price + "</p>" +
+                        "<p>$" + game.price + "</p>" +
 						"<button class='site-btn btn-sm'>Add to cart</button>" + 
-						"<div></div>";
+						"</div><div></div>";
 
                     rows += eachRow + "</div></div>";
                 }
@@ -153,6 +155,16 @@ $.ajax({
                 $('.row').append(rows);
     }
 });
+
+// $(document).ready(function () {
+//   $("#gameSearch").on("keyup", function () {
+//     var value = $(this).val().toLowerCase();
+//     $("#sGame *").filter(function () {
+//       $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+//     });
+//   });
+// });
+
 
 /* SCRIPT NOT IN USE
 $(async() => {           
