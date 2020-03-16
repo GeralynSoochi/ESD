@@ -11,6 +11,15 @@ create table game (
 	imageLink varchar(100) NOT NULL
 );
 
+create table cart (
+	id integer auto_increment primary key,
+	account_id int NOT NULL,
+	name varchar(100) NOT NULL,
+	description varchar(500) NOT NULL,
+	price decimal (4,2) NOT NULL,
+	category char(100) NOT NULL,
+	imageLink varchar(100) NOT NULL
+);
 
 insert into game (name, description, price, category, imageLink) values ('Left4Dead2','Set during the aftermath of an apocalyptic pandemic, Left 4 Dead 2 focuses on four new Survivors, fighting against hordes of zombies, known as the Infected, who develop severe psychosis and act extremely aggressive.','8.99','Shooter','img/game/l4d2.jpg');
 insert into game (name, description, price, category, imageLink) values ('Grand Theft Auto v','Grand Theft Auto V is an action-adventure game played from either a third-person or first-person perspective. Players complete missions—linear scenarios with set objectives—to progress through the story. ','10.99','Shooter','img/game/6.jpg');
