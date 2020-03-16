@@ -100,6 +100,35 @@
 								</li>
 							</ul>
 						</div>
+						<!--TEST TABLE-->
+						<script>
+						$.ajax({
+							method: "GET",
+							url: "http://127.0.0.1:5000/cart",
+							context: "application/json",
+							success: function (data){
+								var rows = "";
+								var games = data.games; 
+										for (var game of games) {
+											eachRow =
+												// <div class="review-cover set-bg" data-setbg="img/review/5.jpg"><!-- IMAGE URL--><div>
+												"<div class = 'col-md-6'>" +
+												"<div class = 'review-item'>" + 
+												"<div id ='sGame'>" +
+												"<img src=" + game.imageLink + " alt=game>" +
+												"<h4>" + game.name + "</h4>" +
+												"<p>" + game.description + "</p>" +
+												"<p>$" + game.price + "</p>" +
+												"<button class='site-btn btn-sm'>Add to cart</button>" + 
+												"</div><div></div>";
+						
+											rows += eachRow + "</div></div>";
+										}
+										// add all the rows to the table
+										$('.row').append(rows);
+							}
+						});
+						</script>
 
 						<!-- Cart Buttons -->
 						<div class="cart_buttons d-flex flex-row align-items-start justify-content-start">
