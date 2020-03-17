@@ -11,19 +11,20 @@ db = SQLAlchemy(app)
 CORS(app)
  
  
-class Game(db.Model):
+class Cart(db.Model):
     __tablename__ = 'cart'
  
     id = db.Column(db.String(13), primary_key=True)
-    account = db.Column(db.String(13))
+    account_id = db.Column(db.String(13))
     name = db.Column(db.String(100))
     description = db.Column(db.String(500))
     price = db.Column(db.Float(precision=2))
     category = db.Column(db.String(100))
     imageLink = db.Column(db.String(100))
  
-    def __init__(self, account, name, description, price, category, imageLink):
-        self.account = account
+    def __init__(self, id, account_id, name, description, price, category, imageLink):
+        self.id = id
+        self.account_id = account_id
         self.name = name
         self.description = description
         self.price = price
@@ -31,14 +32,13 @@ class Game(db.Model):
         self.imageLink = imageLink
  
     def json(self):
-        return {"account": self.account, "name": self.name, "description": self.description, "price": self.price, "category": self.category, "imageLink": self.imageLink}
+        return {"id": self.id, "account_id": self.account_id, "name": self.name, "description": self.description, "price": self.price, "category": self.category, "imageLink": self.imageLink}
  
  
-@app.route("/game")
+@app.route("/cart")
 def get_all():
-    return jsonify({"games": [game.json() for game in Game.query.all()]})
- 
- 
+    return jsonify({"cart": [cart.json() for cart in Cart.query.all()]})
+
  
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

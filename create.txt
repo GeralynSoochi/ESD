@@ -11,16 +11,6 @@ create table game (
 	imageLink varchar(100) NOT NULL
 );
 
-create table cart (
-	id integer auto_increment primary key,
-	account_id integer NOT NULL,
-	name varchar(100) NOT NULL,
-	description varchar(500) NOT NULL,
-	price decimal (4,2) NOT NULL,
-	category char(100) NOT NULL,
-	imageLink varchar(100) NOT NULL
-);
-
 insert into game (name, description, price, category, imageLink) values ('Left4Dead2','Set during the aftermath of an apocalyptic pandemic, Left 4 Dead 2 focuses on four new Survivors, fighting against hordes of zombies, known as the Infected, who develop severe psychosis and act extremely aggressive.','8.99','Shooter','img/game/l4d2.jpg');
 insert into game (name, description, price, category, imageLink) values ('Grand Theft Auto v','Grand Theft Auto V is an action-adventure game played from either a third-person or first-person perspective. Players complete missions—linear scenarios with set objectives—to progress through the story. ','10.99','Shooter','img/game/6.jpg');
 insert into game (name, description, price, category, imageLink) values ('The Elder Scrolls V: Skyrim','The Elder Scrolls V: Skyrim is an action role-playing video game developed by Bethesda Game Studios and published by Bethesda Softworks.','10.99','Action','img/game/tesv.jpg');
@@ -47,3 +37,17 @@ insert into game (name, description, price, category, imageLink) values ('The Wi
 insert into game (name, description, price, category, imageLink) values ('Metro Exodus',' Flee the shattered ruins of the Moscow Metro and embark on an epic, continent-spanning journey across the post-apocalyptic Russian wilderness. ','22.90','Action','img/game/exodus.jpg');
 insert into game (name, description, price, category, imageLink) values ('Dead Island',' Caught in the midst of an epic zombie outbreak on the tropical island of Banoi, your only thought is: Survive! ','22.90','Action','img/game/deadisland.jpg');
 insert into game (name, description, price, category, imageLink) values ('Saints Row', 'Get ready for the most out-landish gameplay scenarios ever seen as the Third Street Saints take on the Syndicate!','24.90','Action','img/game/saintsrow.jpg');
+
+drop database if exists cart;
+create database cart;
+use cart;
+
+create table cart (
+	id integer auto_increment primary key,
+	account_id integer NOT NULL,
+	name varchar(100) NOT NULL,
+	description varchar(500) NOT NULL,
+	price decimal (4,2) NOT NULL,
+	category char(100) NOT NULL,
+	imageLink varchar(100) NOT NULL
+);

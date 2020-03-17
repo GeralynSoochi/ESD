@@ -31,6 +31,14 @@
 
 </head>
 <body>
+	<!--====== Javascripts & Jquery ======-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<!-- <script src="js/jquery-3.2.1.min.js"></script> -->
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/owl.carousel.min.js"></script>
+	<script src="js/jquery.marquee.min.js"></script>
+	<script src="js/main.js"></script>
+	
 	<!-- Page Preloder -->
 	<div id="preloder">
 		<div class="loader"></div>
@@ -81,11 +89,11 @@
 						</div>
 
 						<!-- Cart Items -->
-						<div class="cart_items">
-							<ul class="cart_items_list">
+						<!-- <div class="cart_items">
+							<ul class="cart_items_list"> -->
 
 								<!-- Cart Item -->
-								<li class="cart_item item_list d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-lg-end justify-content-start">
+								<!-- <li class="cart_item item_list d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-lg-end justify-content-start">
 									<div class="product d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-start mr-auto">
 										<div><div class="product_number">1</div></div>
 										<div><div class="product_image"><img src="images/cart_item_1.jpg" alt=""></div></div>
@@ -93,15 +101,83 @@
 											<div class="product_name"><a href="product.html">Cool Flufy Clothing without Stripes</a></div>
 											<div class="product_text">Second line for additional info</div>
 										</div>
-									</div>
+									</div> -->
 									
-								
+<!-- 								
 									<div class="product_total product_text"><span>Total: </span>$3.99</div>
 								</li>
 							</ul>
-						</div>
+						</div> -->
+	<div id="main-container" class="container">
+		<h1 class="display-4">Cart</h1>
+		<table id="cartTable" class='table table-striped' border='1'>
+			<thead class='thead-dark'>
+				<tr>
+					<th>Image</th>
+					<th>Name</th>
+					<th>Description</th>
+					<th>Price</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+	<script>
+		// Helper function to display error message
+		function showError(message) {
+			// Hide the table and button in the event of error
+			$('#cartTable').hide();
+			// Display an error under the main container
+			$('#main-container')
+				.append("<label>"+message+"</label>");
+		}
+	
+		// anonymous async function 
+		// - using await requires the function that calls it to be async
+		console.log('hi');
+		$(async() => {      
+			console.log('async');  
+			// Change serviceURL to your own
+			var serviceURL = "http://127.0.0.1:5000/cart";
+	
+			try {
+				const response =
+				 await fetch(
+				   serviceURL, { method: 'GET' }
+				);
+				const data = await response.json();
+				var cart = data.cart; //the arr is in data.books of the JSON data
+	
+				// array or array.length are falsy
+				if (!cart || !cart.length) {
+					showError('Cart is empty')
+				} else {
+					// for loop to setup all table rows with obtained book data
+					var rows = "";
+					for (const item of cart) {
+						eachRow =
+							"<td>" + item.imageLink + "</td>" +
+							"<td>" + item.name + "</td>" +
+							"<td>" + item.description + "</td>" +
+							"<td>" + item.price + "</td>";
+						rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
+					}
+					// add all the rows to the table
+					$('#cartTable').append(rows);
+				}
+			} catch (error) {
+				// Errors when calling the service; such as network error, 
+				// service offline, etc
+				showError
+			  ('There is a problem retrieving books data, please try again later.<br />'+error);
+			   
+			} // error
+		});
+	</script>
+	
+						
 						<!--TEST TABLE-->
-						<script>
+						<!-- <script>
+						console.log('hi');
 						$.ajax({
 							method: "GET",
 							url: "http://127.0.0.1:5000/cart",
@@ -111,7 +187,6 @@
 								var games = data.games; 
 										for (var game of games) {
 											eachRow =
-												// <div class="review-cover set-bg" data-setbg="img/review/5.jpg"><!-- IMAGE URL--><div>
 												"<div class = 'col-md-6'>" +
 												"<div class = 'review-item'>" + 
 												"<div id ='sGame'>" +
@@ -128,7 +203,7 @@
 										$('.row').append(rows);
 							}
 						});
-						</script>
+						</script> -->
 
 						<!-- Cart Buttons -->
 						<div class="cart_buttons d-flex flex-row align-items-start justify-content-start">
@@ -181,17 +256,12 @@
 	
 
 
-	<!--====== Javascripts & Jquery ======-->
-	<script src="js/jquery-3.2.1.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/owl.carousel.min.js"></script>
-	<script src="js/jquery.marquee.min.js"></script>
-	<script src="js/main.js"></script>
+
 
 
 	<!-- load for map -->
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWTIlluowDL-X4HbYQt3aDw_oi2JP0Krc&sensor=false"></script>
-	<script src="js/map.js"></script>
+	<!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWTIlluowDL-X4HbYQt3aDw_oi2JP0Krc&sensor=false"></script>
+	<script src="js/map.js"></script> -->
 
     </body>
 </html>
