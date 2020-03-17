@@ -16,7 +16,7 @@ CORS(app)
 import requests
 
 class Ticket(db.Model):
-    __tablename__ = 'book'
+    __tablename__ = 'ticket'
 
     ticketid = db.Column(db.Integer, primary_key=True, autoincrement=True)
     issueTitle = db.Column(db.String(100), nullable=False)

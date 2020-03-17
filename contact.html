@@ -75,9 +75,9 @@
 									<input type="email" placeholder="Email">
 								</div>
 								<div class="col-lg-12">
-									<input type="text" placeholder="Subject">
+									<input type="text" name="title" id="title" placeholder="Subject">
 									<textarea placeholder="Message"></textarea>
-									<button class="site-btn btn-sm">Send</button>
+									<button type="submit" id="addTicket"class="site-btn btn-sm">Send</button>
 								</div>
 							</div>
 						</form>
@@ -111,6 +111,54 @@
 	<!-- load for map -->
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWTIlluowDL-X4HbYQt3aDw_oi2JP0Krc&sensor=false"></script>
 	<script src="js/map.js"></script>
+
+	<script>
+        // Helper function to display error message
+        function showError(message) {
+            // Hide the table and button in the event of error
+            $('#booksTable').hide();
+            $('#addBookBtn').hide();
+    
+            // Display an error under the main container
+            $('#main-container')
+                .append("<label>"+message+"</label>");
+        }
+
+        $("#addBookForm").click(async () => {
+            event.preventDefault();
+            var title = $('#title').val();
+            var isbnNumber = $('#isbn13').val();
+            var price = $('#price').val();
+            var availability = $('#availability').val();
+            var serviceURL = "http://127.0.0.1:5000/book" + "/" + isbnNumber;
+            
+            try {
+                const response =
+                 await fetch(
+                    serviceURL, { method: 'POST', headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ title: title, price: price, availability: availability })
+                }
+                );
+                const data = await response.json();
+                if (response.ok) {
+                    console.log(data);
+                    
+                    $('.main').text("Book '" + data.title + "' has been added!");
+                    $('#viewbtn').show();
+                    $('#searchbtn').show();
+                
+                    }
+                } catch (error) {
+                    // Errors when calling the service; such as network error, 
+                    // service offline, etc
+                    showError
+                    ('There is a problem retrieving books data, please try again later.<br />'+error);
+            
+        } 
+        })
+    
+        
+</script>
 
     </body>
 </html>
