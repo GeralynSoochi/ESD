@@ -46,11 +46,11 @@
 						Login
 					</span>
 
-					<div class="wrap-input100 validate-input m-b-16" data-validate = "Valid email is required: ex@abc.xyz">
-						<input class="input100" type="text" id="email" name="email" placeholder="Email">
+					<div class="wrap-input100 validate-input m-b-16" data-validate = "Valid username is required">
+						<input class="input100" type="text" id="username" name="username" placeholder="Username">
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
-							<span class="lnr lnr-envelope"></span>
+							<span class="lnr lnr-user"></span>
 						</span>
 					</div>
 
@@ -121,9 +121,9 @@
 		$(".login100-form-btn").click(async (event) => { 
 			$('#errormsg').text('');
 			event.preventDefault();
-			var email = $('#email').val();
-			var password= $('#password').val();
-			var serviceURL = "http://127.0.0.1:5000/account"+"/"+email;
+			var username = $.trim($('#username').val());
+			var password= $.trim($('#password').val());
+			var serviceURL = "http://127.0.0.1:5000/account"+"/"+username;
 			try {
 				const response =
 				await fetch(
