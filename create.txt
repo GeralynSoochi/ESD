@@ -12,7 +12,7 @@ create table game (
 );
 
 insert into game (name, description, price, category, imageLink) values ('Left4Dead2','Set during the aftermath of an apocalyptic pandemic, Left 4 Dead 2 focuses on four new Survivors, fighting against hordes of zombies, known as the Infected, who develop severe psychosis and act extremely aggressive.','8.99','Shooter','img/game/l4d2.jpg');
-insert into game (name, description, price, category, imageLink) values ('Grand Theft Auto v','Grand Theft Auto V is an action-adventure game played from either a third-person or first-person perspective. Players complete missions—linear scenarios with set objectives—to progress through the story. ','10.99','Shooter','img/game/6.jpg');
+insert into game (name, description, price, category, imageLink) values ('Grand Theft Auto v','Grand Theft Auto V is an action-adventure game played from either a third-person or first-person perspective. Players complete missionsï¿½linear scenarios with set objectivesï¿½to progress through the story. ','10.99','Shooter','img/game/6.jpg');
 insert into game (name, description, price, category, imageLink) values ('The Elder Scrolls V: Skyrim','The Elder Scrolls V: Skyrim is an action role-playing video game developed by Bethesda Game Studios and published by Bethesda Softworks.','10.99','Action','img/game/tesv.jpg');
 insert into game (name, description, price, category, imageLink) values ('Borderland 3','The original shooter-looter returns, packing bazillions of guns and a mayhem-fueled adventure! Blast through new worlds & enemies and save your home from the most ruthless cult leaders in the galaxy.','33.29','Action','img/game/bl3.jpg');
 insert into game (name, description, price, category, imageLink) values ('Granblue Fantasy','Featuring Cygames high-quality art, captivating sound design, and an ever-expanding game system, Granblue Fantasy has continued to charm its fans throughout the years.','49.00','Action','img/game/granblue.jpg');
@@ -26,7 +26,7 @@ insert into game (name, description, price, category, imageLink) values ('ARK: S
 insert into game (name, description, price, category, imageLink) values ('Rust','The only aim in Rust is to survive - Overcome struggles such as hunger, thirst and cold. Build a fire. Build a shelter.','18.90','Action','img/game/rust.jpg');
 insert into game (name, description, price, category, imageLink) values ('Dont Starve Together: Wurt Deluxe Chest','Wurt might be a fish out of water, but she found herself right at home among the other Survivors! With this Deluxe Chest, you will unlock this new playable character and her entire wardrobe of three extra character skins.','18.90','Action','img/game/wurt.jpg');
 insert into game (name, description, price, category, imageLink) values ('Monster Hunter: World','Take on the role of a hunter and slay ferocious monsters in a living, breathing ecosystem where you can use the landscape and its diverse inhabitants to get the upper hand. ','14.90','Action','img/game/monsterhunter.jpg');
-insert into game (name, description, price, category, imageLink) values ('Destiny 2','Experience Destiny 2’s cinematic story alone or with friends, join other Guardians for challenging co-op missions, or compete against them in a variety of PvP modes. ','8.90','Action','img/game/destiny2.jpg');
+insert into game (name, description, price, category, imageLink) values ('Destiny 2','Experience Destiny 2ï¿½s cinematic story alone or with friends, join other Guardians for challenging co-op missions, or compete against them in a variety of PvP modes. ','8.90','Action','img/game/destiny2.jpg');
 insert into game (name, description, price, category, imageLink) values ('Warframe','Warframe is a cooperative free-to-play third person online action game set in an evolving sci-fi world. ','8.90','Action','img/game/warframe.jpg');
 insert into game (name, description, price, category, imageLink) values ('Risk Of Rain','Play solo, or team up with up to three friends to fight your way through hordes of monsters, unlock new loot, and find a way to escape the planet.','8.90','Action','img/game/risktherain.jpg');
 insert into game (name, description, price, category, imageLink) values ('Sniper Elite 4','Experience tactical third-person combat, gameplay choice and epic longshots across gigantic levels as you liberate wartime Italy from the grip of Fascism.','19.90','Action','img/game/sniper.jpg');
@@ -51,3 +51,16 @@ create table cart (
 	category char(100) NOT NULL,
 	imageLink varchar(100) NOT NULL
 );
+
+drop database if exists account;
+create database account;
+use account;
+
+create table account (
+	username varchar(100) primary key NOT NULL,
+	password varchar(30) NOT NULL,	  
+	email varchar(100) NOT NULL,
+	phone int(8) NOT NULL
+);
+
+insert into account (username, password, email, phone) values ('ted','esd2020','ted@gmail.com','86141346');
