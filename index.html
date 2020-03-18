@@ -4,11 +4,23 @@
 	<title>Login V11</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script 
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	
+	<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+	integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+	crossorigin="anonymous"></script>
+	
+	<script 
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+	integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+	crossorigin="anonymous"></script>	
 <!--===============================================================================================-->	
 	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
-<!--===============================================================================================-->
+<!-- =============================================================================================== -->
 	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
@@ -22,6 +34,7 @@
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 <!--===============================================================================================-->
+
 </head>
 <body>
 	
@@ -34,7 +47,7 @@
 					</span>
 
 					<div class="wrap-input100 validate-input m-b-16" data-validate = "Valid email is required: ex@abc.xyz">
-						<input class="input100" type="text" name="email" placeholder="Email">
+						<input class="input100" type="text" id="email" name="email" placeholder="Email">
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<span class="lnr lnr-envelope"></span>
@@ -42,7 +55,7 @@
 					</div>
 
 					<div class="wrap-input100 validate-input m-b-16" data-validate = "Password is required">
-						<input class="input100" type="password" name="pass" placeholder="Password">
+						<input class="input100" type="password" id="password" name="pass" placeholder="Password">
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<span class="lnr lnr-lock"></span>
@@ -55,6 +68,7 @@
 							Remember me
 						</label>
 					</div>
+					<div id="errormsg"></div>
 					
 					<div class="container-login100-form-btn p-t-25">
 						<button class="login100-form-btn">
@@ -91,7 +105,7 @@
 
 	
 <!--===============================================================================================-->	
-	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
 <!--===============================================================================================-->
 	<script src="vendor/bootstrap/js/popper.js"></script>
 	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
@@ -99,6 +113,38 @@
 	<script src="vendor/select2/select2.min.js"></script>
 <!--===============================================================================================-->
 	<script src="js/main.js"></script>
+	<script>
+		function showError(message) {
+			$('#errormsg').append(message);
+		}
+		// console.log("test");
+		$(".login100-form-btn").click(async (event) => { 
+			$('#errormsg').text('');
+			event.preventDefault();
+			var email = $('#email').val();
+			var password= $('#password').val();
+			var serviceURL = "http://127.0.0.1:5000/account"+"/"+email;
+			try {
+				const response =
+				await fetch(
+				serviceURL, { method: 'GET' }
+				);
+				const data = await response.json();
+				console.log(data.email);
+				if (data.email && data.password == password) {
+					sessionStorage.setItem("user",data.username);
+					window.location.href = "home.html";
+				} else {
+					showError('Incorrect username or password');
+				}
+			} catch (error) {
+				// Errors when calling the service; such as network error, 
+				// service offline, etc
+				showError
+				('There is a problem logging in, please try again later.<br />'+error);
+			} // error
+		});
+	</script>
 
 </body>
 </html>
