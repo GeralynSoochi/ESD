@@ -58,6 +58,10 @@ p {
 	line-height: 2;
 }
 
+.submitted {
+	color: #3db4e4;
+}
+
 img {
 	max-width: 100%;
 }

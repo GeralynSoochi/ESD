@@ -5,6 +5,7 @@ import random
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
+from datetime import date
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/ticket'
@@ -18,31 +19,33 @@ import requests
 class Ticket(db.Model):
     __tablename__ = 'ticket'
 
-    ticketid = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    ticketid = db.Column(db.Integer, primary_key=True)
     issueTitle = db.Column(db.String(100), nullable=False)
     issueDetails = db.Column(db.String(), nullable=False)
     status = db.Column(db.String(10), nullable=False)
     dateOpen = db.Column(db.DateTime(), nullable=False)
     userID = db.Column(db.Integer, nullable=False)
 
-    def __init__(self, issueTitle, issueDetails, status, dateOpen, userID):
+    def __init__(self, ticketid, dateOpen, issueTitle, issueDetails, status, userID):
+        self.ticketid = ticketid
+        self.dateOpen = dateOpen
         self.issueTitle = issueTitle
         self.issueDetails = issueDetails
         self.status = status
-        self.dateOpen = dateOpen
         self.userID = userID
 
     def json(self):
-        return {"ticketid": self.ticketid, "issueTitle": self.issueTitle, "issueDetails": self.issueDetails, "status": self.status, "dateOpen": self.dateOpen, "userID": self.userID}
+        return {"ticketid": self.ticketid, "dateOpen": self.dateOpen, "issueTitle": self.issueTitle, "issueDetails": self.issueDetails, "status": self.status, "userID": self.userID}
 
 
-@app.route("/support", methods=['POST'])
+@app.route("/support/<int:ticketid>", methods=['POST'])
 def create_ticket(ticketid):
-    if (Ticket.query.filter_by(ticketid=ticketid).first()):
-        return jsonify({"message": "A ticket with ticketid '{}' already exists.".format(ticketid)}), 400
+    # if (Ticket.query.filter_by(ticketid=ticketid).first()):
+    #     return jsonify({"message": "A ticket with ticketid '{}' already exists.".format(ticketid)}), 400
 
     data = request.get_json()
-    ticket = Ticket(ticketid, **data)
+    dateOpen = date.today()
+    ticket = Ticket(ticketid, dateOpen, **data)
 
     try:
         db.session.add(ticket)
