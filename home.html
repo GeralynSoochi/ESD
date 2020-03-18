@@ -39,7 +39,7 @@
 			<a class="site-logo" href="index.html">
 				<img src="img/logo.png" alt="">
 			</a>
-			<div class="user-panel">
+			<div class="user-panel" id="user">
 				<a href="#">Login</a>  /  <a href="#">Register</a>
 			</div>
 			<!-- responsive -->
@@ -173,5 +173,20 @@
 	<script src="js/owl.carousel.min.js"></script>
 	<script src="js/jquery.marquee.min.js"></script>
 	<script src="js/main.js"></script>
+	<script>
+		// check if user is logged in 
+		if (sessionStorage['user']){
+			// console.log("logged in");
+			$('#user').html("<a href='home.html' id='logout'>Logout</a>");
+		
+		}else{
+			// console.log("not logged in");
+			$('#user').html("<a href='index.html'>Login</a>  /  <a href='signup.html'>Register</a>");
+		}
+		//when user log out
+		$("#logout").click(async (event) => {
+			sessionStorage.clear();
+		});
+	</script>
     </body>
 </html>
