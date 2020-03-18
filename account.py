@@ -27,6 +27,7 @@ class Account(db.Model):
         self.username = username
         self.password = password
         self.email = email
+        self.phone = phone
 
 
     def json(self):
@@ -43,6 +44,5 @@ def login(email):
         return jsonify(account.json())
     return jsonify({"message": "User not found."}), 404
  
-
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
