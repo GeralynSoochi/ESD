@@ -40,8 +40,8 @@ class Ticket(db.Model):
 
 @app.route("/support/<int:ticketid>", methods=['POST'])
 def create_ticket(ticketid):
-    # if (Ticket.query.filter_by(ticketid=ticketid).first()):
-    #     return jsonify({"message": "A ticket with ticketid '{}' already exists.".format(ticketid)}), 400
+    if (Ticket.query.filter_by(ticketid=ticketid).first()):
+        return jsonify({"message": "A ticket with ticketid '{}' already exists.".format(ticketid)}), 400
 
     data = request.get_json()
     dateOpen = date.today()

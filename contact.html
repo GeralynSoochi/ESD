@@ -66,6 +66,7 @@
 		
 					<div class="contact-form-warp">
 						<h6 class="submitted"></h6>
+						<h6 id="error" class="error"></h6>
 						<h4 class="comment-title">Contact Us</h4>
 						<form class="comment-form">
 							<div class="row">
@@ -120,16 +121,10 @@
 	<script>
         // Helper function to display error message
         function showError(message) {
-            // Hide the table and button in the event of error
-            // $('#booksTable').hide();
-            // $('#addBookBtn').hide();
-    
-            // Display an error under the main container
-            $('#main-container')
-                .append("<label>"+message+"</label>");
+            $('#error').text(message);
         }
 
-        $("#addTicketForm").click(async () => {
+        $("#addTicketForm").click(async (event) => {
             event.preventDefault();
 			var userID = $('#userID').val();
             var issueTitle = $('#issueTitle').val();
@@ -147,15 +142,16 @@
                 );
                 const data = await response.json();
                 if (response.ok) {
-                    console.log(data);
-                    
                     $('.submitted').text("Ticket '" + data.issueTitle + "' has been submitted!");
                 
-                    }
+                    } else {
+						console.log(data);
+                		showError(data.message);
+					}
                 } catch (error) {
                     // Errors when calling the service; such as network error, 
                     // service offline, etc
-					console.log();
+					
                     showError
                     ('There is a problem retrieving ticket data, please try again later.<br />'+error);
             
