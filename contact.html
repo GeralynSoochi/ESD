@@ -6,8 +6,8 @@
 	<meta name="description" content="Game Warrior Template">
 	<meta name="keywords" content="warrior, game, creative, html">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<!-- Favicon -->   
-	<link href="img/favicon.ico" rel="shortcut icon"/>
+	<!-- Favicon   
+	<link href="img/favicon.ico" rel="shortcut icon"/> -->
 
 	<!-- Google Fonts -->
 	<link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i" rel="stylesheet">
@@ -61,23 +61,28 @@
 
 	<!-- Page section -->
 	<section class="page-section spad contact-page">
-		<div class="container">
+		<div class="container" id="main-container">
 			<!--<div class="map" id="map-canvas"></div> -->
 		
 					<div class="contact-form-warp">
+						<h6 class="submitted"></h6>
 						<h4 class="comment-title">Contact Us</h4>
 						<form class="comment-form">
 							<div class="row">
 								<div class="col-md-6">
-									<input type="text" placeholder="Name">
+									<input type="text" id='userID' name='userID' placeholder="UserID">
 								</div>
-								<div class="col-md-6">
+								<!-- <div class="col-md-6">
 									<input type="email" placeholder="Email">
-								</div>
+								</div> -->
+							</div><div class="row">
 								<div class="col-lg-12">
-									<input type="text" name="title" id="title" placeholder="Subject">
-									<textarea placeholder="Message"></textarea>
-									<button type="submit" id="addTicket"class="site-btn btn-sm">Send</button>
+									<input type="text" name="issueTitle" id="issueTitle" placeholder="Title">
+									<textarea name="issueDetails" id="issueDetails" placeholder="Message"></textarea>
+								</div><div class="col-lg-12">
+									<input type='hidden' name='status' id='status' value='open' />
+									<input type='text' name='ticketid' id='ticketid' value='9' />						
+									<button type="submit" id="addTicketForm" class="site-btn btn-sm">Send</button></p>
 								</div>
 							</div>
 						</form>
@@ -108,51 +113,51 @@
 	<script src="js/main.js"></script>
 
 
-	<!-- load for map -->
+	<!-- load for map
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWTIlluowDL-X4HbYQt3aDw_oi2JP0Krc&sensor=false"></script>
-	<script src="js/map.js"></script>
+	<script src="js/map.js"></script> -->
 
 	<script>
         // Helper function to display error message
         function showError(message) {
             // Hide the table and button in the event of error
-            $('#booksTable').hide();
-            $('#addBookBtn').hide();
+            // $('#booksTable').hide();
+            // $('#addBookBtn').hide();
     
             // Display an error under the main container
             $('#main-container')
                 .append("<label>"+message+"</label>");
         }
 
-        $("#addBookForm").click(async () => {
+        $("#addTicketForm").click(async () => {
             event.preventDefault();
-            var title = $('#title').val();
-            var isbnNumber = $('#isbn13').val();
-            var price = $('#price').val();
-            var availability = $('#availability').val();
-            var serviceURL = "http://127.0.0.1:5000/book" + "/" + isbnNumber;
+			var userID = $('#userID').val();
+            var issueTitle = $('#issueTitle').val();
+            var issueDetails = $('#issueDetails').val();
+            var status= $('#status').val();
+			var ticketid = $('#ticketid').val();
+            var serviceURL = "http://127.0.0.1:5010/support" + "/" + ticketid;
             
             try {
                 const response =
                  await fetch(
                     serviceURL, { method: 'POST', headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ title: title, price: price, availability: availability })
+                    body: JSON.stringify({ issueTitle: issueTitle, issueDetails: issueDetails, status: status, userID: userID})
                 }
                 );
                 const data = await response.json();
                 if (response.ok) {
                     console.log(data);
                     
-                    $('.main').text("Book '" + data.title + "' has been added!");
-                    $('#viewbtn').show();
-                    $('#searchbtn').show();
+                    $('.submitted').text("Ticket '" + data.issueTitle + "' has been submitted!");
                 
                     }
                 } catch (error) {
                     // Errors when calling the service; such as network error, 
                     // service offline, etc
+					console.log();
                     showError
-                    ('There is a problem retrieving books data, please try again later.<br />'+error);
+                    ('There is a problem retrieving ticket data, please try again later.<br />'+error);
             
         } 
         })
