@@ -37,12 +37,12 @@ class Account(db.Model):
 def get_all():
     return jsonify({"account": [account.json() for account in Account.query.all()]})
 
-@app.route("/account/<string:email>")
-def login(email):
-    account = Account.query.filter_by(email=email).first()
+@app.route("/account/<string:username>")
+def login(username):
+    account = Account.query.filter_by(username=username).first()
     if account:
         return jsonify(account.json())
     return jsonify({"message": "User not found."}), 404
- 
+
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
