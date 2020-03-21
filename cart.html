@@ -77,13 +77,13 @@
 					<div class="cart_container">
 						
 						<!-- Cart Bar -->
-						<div class="cart_bar">
+						<!-- <div class="cart_bar">
 							<ul class="cart_bar_list item_list d-flex flex-row align-items-center justify-content-end">
 								<li class="mr-auto">Product</li>
 								
 								<li>Price</li>
 							</ul>
-						</div>
+						</div> -->
 
 						<!-- Cart Items -->
 						<!-- <div class="cart_items">
@@ -107,69 +107,19 @@
 						</div> -->
 	<div id="main-container" class="container">
 		<h1 class="display-4">Cart</h1>
-		<table id="cartTable" class='table table-striped' border='1'>
-			<thead class='thead-dark'>
+		<table id="cartTable" class='table table-striped' border='0'>
+			<thead class='clear'>
 				<tr>
 					<th>Image</th>
 					<th>Name</th>
 					<th>Description</th>
 					<th>Price</th>
+					<th></th>
 				</tr>
 			</thead>
 		</table>
 	</div>
-	<script>
-		// Helper function to display error message
-		function showError(message) {
-			// Hide the table and button in the event of error
-			$('#cartTable').hide();
-			// Display an error under the main container
-			$('#main-container')
-				.append("<label>"+message+"</label>");
-		}
-	
-		// anonymous async function 
-		// - using await requires the function that calls it to be async
-		console.log('hi');
-		$(async() => {      
-			console.log('async');  
-			// Change serviceURL to your own
-			var serviceURL = "http://127.0.0.1:5000/cart";
-	
-			try {
-				const response =
-				 await fetch(
-				   serviceURL, { method: 'GET' }
-				);
-				const data = await response.json();
-				var cart = data.cart; //the arr is in data.books of the JSON data
-	
-				// array or array.length are falsy
-				if (!cart || !cart.length) {
-					showError('Cart is empty')
-				} else {
-					// for loop to setup all table rows with obtained book data
-					var rows = "";
-					for (const item of cart) {
-						eachRow =
-							"<td>" + item.imageLink + "</td>" +
-							"<td>" + item.name + "</td>" +
-							"<td>" + item.description + "</td>" +
-							"<td>" + item.price + "</td>";
-						rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
-					}
-					// add all the rows to the table
-					$('#cartTable').append(rows);
-				}
-			} catch (error) {
-				// Errors when calling the service; such as network error, 
-				// service offline, etc
-				showError
-			  ('There is a problem retrieving books data, please try again later.<br />'+error);
-			   
-			} // error
-		});
-	</script>
+
 	
 						
 						<!--TEST TABLE-->
@@ -213,22 +163,22 @@
 				</div>
 			</div>
 		
-			
+
 					<div class="cart_extra cart_extra_2">
 						<div class="cart_extra_content cart_extra_total">
 							<div class="cart_extra_title">Cart Total</div>
 							<ul class="cart_extra_total_list">
-								<li class="d-flex flex-row align-items-center justify-content-start">
+								<!-- <li class="d-flex flex-row align-items-center justify-content-start">
 									<div class="cart_extra_total_title">Subtotal</div>
-									<div class="cart_extra_total_value ml-auto">$29.90</div>
-								</li>
+									<div class="cart_extra_total_value ml-auto" ></div>
+								</li> -->
 								<li class="d-flex flex-row align-items-center justify-content-start">
 									<div class="cart_extra_total_title">Shipping</div>
 									<div class="cart_extra_total_value ml-auto">Free</div>
 								</li>
 								<li class="d-flex flex-row align-items-center justify-content-start">
 									<div class="cart_extra_total_title">Total</div>
-									<div class="cart_extra_total_value ml-auto">$29.90</div>
+									<div class="cart_extra_total_value ml-auto" id ="total_price"></div>
 								</li>
 							</ul>
 							<div class="checkout_button trans_200"><a href="checkout.html">proceed to checkout</a></div>
@@ -238,7 +188,124 @@
 			</div>
 		</div>
 	</div>
-
+	<script>
+		// Helper function to display error message
+		function showError(message) {
+			// Hide the table and button in the event of error
+			$('#cartTable').hide();
+			// Display an error under the main container
+			$('#main-container')
+				.append("<label>"+message+"</label>");
+		}
+	
+		// anonymous async function 
+		// - using await requires the function that calls it to be async
+		//console.log('hi');
+		$(async() => {      
+			//console.log('async');  
+			// Change serviceURL to your own
+			var serviceURL = "http://127.0.0.1:5005/cart";
+			try {
+				const response =
+				 await fetch(
+				   serviceURL, { method: 'GET' }
+				);
+				const data = await response.json();
+				var cart = data.cart; //the arr is in data.books of the JSON data
+				// array or array.length are falsy
+				if (!cart || !cart.length) {
+					showError('Cart is empty')
+				} else {
+					// for loop to setup all table rows with obtained book data
+					var rows = "";
+					var sub_total = 0;
+					for (const item of cart) {
+						var name = item.name + "_button";
+						//console.log(name);
+						eachRow =
+							"<td>" + item.imageLink + "</td>" +
+							"<td>" + item.name + "</td>" +
+							"<td>" + item.description + "</td>" +
+							"<td>" + item.price + "</td>" +
+							//"<td>" + "<button class='site-btn btn-sm' id=" + name + ">Delete</button>" + "</td>";
+							"<td>" + "<button class='site-btn btn-sm' data-id='" + item.name + "'>Delete</button>" + "</td>";
+							sub_total += item.price;
+							//console.log(sub_total);
+							//button to delete
+							console.log(name);
+							// $(document).on('click', 'button[data-id]', function (e){
+							// 	var requested_to = $(this).attr('data-id');
+							// 	console.log('hello');
+							// 	e.preventDefault();
+							// 	var serviceURL = 'http://127.0.0.1:5005/cart/delete';
+							// 	var request_body = {
+							// 		//needa take from session
+							// 		//username: sessionStorage.getItem("username"),
+							// 		username: 'abc',
+							// 		name: item.name,
+							// 		description: item.description,
+							// 		price: item.price,
+							// 		imageLink: item.imageLink
+							// 	};
+							// 	var request_param = {
+							// 		mode: 'cors',
+							// 		method: 'DELETE',
+							// 		headers:{
+                        	// 			'Content-Type': 'application/json;charset=utf8'
+                    		// 		},
+                    		// 		body: JSON.stringify(request_body)
+							// 	}
+							// 	fetch(serviceURL, request_param).then(response =>  {
+							// 		return response.json()
+							// 	});
+							// });
+						rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
+					}
+					// add all the rows to the table
+					$('#cartTable').append(rows);
+				}
+				document.getElementById("total_price").innerHTML = sub_total;
+			} catch (error) {
+				// Errors when calling the service; such as network error, 
+				// service offline, etc
+				showError
+			  ('There is a problem retrieving games data, please try again later.<br />'+error);
+			   
+			} // error
+		});
+	</script>
+	<!-- button testing -->
+	<script>
+		//button to delete
+		$(document).on('click', 'button[data-id]', function (e){
+			var requested_to = $(this).attr('data-id');
+			console.log(requested_to);
+			e.preventDefault();
+			var serviceURL = 'http://127.0.0.1:5005/cart/delete';
+			var request_body = {
+				//needa take from session
+				//username: sessionStorage.getItem("username"),
+				username: 'abc',
+				name: 'abc',
+				description: 'abc',
+				price: 12.23,
+				imageLink: 'link'
+			};
+			var request_param = {
+				mode: 'cors',
+				method: 'DELETE',
+				headers:{
+					'Content-Type': 'application/json;charset=utf8'
+				},
+				body: JSON.stringify(request_body)
+			}
+			fetch(serviceURL, request_param).then(response =>  {
+				return response.json();
+			}).then(data => {
+				console.log(data);
+			});
+		});
+	</script>
 	<!-- Page section end -->
 
 	<!-- Footer section -->

@@ -145,7 +145,7 @@ $.ajax({
                         "<div class = 'title'>" + game.name + "</div>" +
                         "<p>" + game.description + "</p>" +
                         "<p>" + game.price + "</p>" +
-						"<button class='site-btn btn-sm'>Add to cart</button>" + 
+						"<button class='site-btn btn-sm' data-id='" + game.name + "'>Add to cart</button>" + 
 						"</div><div></div>";
 
                     rows += eachRow + "</div></div>";
@@ -153,6 +153,36 @@ $.ajax({
                 // add all the rows to the table
                 $('.row').append(rows);
     }
+});
+
+//add button
+$(document).on('click', 'button[data-id]', function (e){
+	var requested_to = $(this).attr('data-id');
+	console.log(requested_to);
+	e.preventDefault();
+	//var serviceURL = 'http://127.0.0.1:5005/cart/' + sessionStorage.getItem("username");
+	var serviceURL = 'http://127.0.0.1:5005/cart';
+	//needa get the info from the game table?
+	var request_body = {
+		username: 'zzz',
+		name: requested_to,
+		description: 'zzz',
+		price: 11.11,
+		imageLink: 'link'
+	};
+	var request_param = {
+		mode: 'cors',
+		method: 'POST',
+		headers:{
+			'Content-Type': 'application/json;charset=utf8'
+		},
+		body: JSON.stringify(request_body)
+	}
+	fetch(serviceURL, request_param).then(response =>  {
+		return response.json();
+	}).then(data => {
+		console.log(data);
+	});
 });
 
 
