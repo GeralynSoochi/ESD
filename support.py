@@ -6,6 +6,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from datetime import date
+from mailjet import sendemail
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/ticket'
@@ -15,6 +16,7 @@ db = SQLAlchemy(app)
 CORS(app)
 
 import requests
+accountURL = "http://localhost:5000/account/"
 
 class Ticket(db.Model):
     __tablename__ = 'ticket'
@@ -52,7 +54,12 @@ def create_ticket(ticketid):
         db.session.commit()
     except:
         return jsonify({"message": "An error occurred creating the ticket."}), 500
+    
+    #get user details
+    r = requests.get(accountURL + ticket.userID, timeout=2)
+    email = r.
 
+    sendemail(ticket.ticketid, ticket.dateOpen, ticket.issueTitle, ticket.issueDetails)
     return jsonify(ticket.json()), 201
 
 
