@@ -43,12 +43,10 @@ create database cart;
 use cart;
 
 create table cart (
-	id integer auto_increment primary key,
-	account_id integer NOT NULL,
+	username varchar(100) NOT NULL,
 	name varchar(100) NOT NULL,
 	description varchar(500) NOT NULL,
 	price decimal (4,2) NOT NULL,
-	category char(100) NOT NULL,
 	imageLink varchar(100) NOT NULL
 );
 
