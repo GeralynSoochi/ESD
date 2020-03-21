@@ -58,7 +58,7 @@ def create_ticket(ticketid):
 
 @app.route("/support/<int:ticketid>")
 def retrieve_ticket(ticketid):
-    ticket = Ticket.query.filter_by(ticketid=ticketid).first
+    ticket = Ticket.query.filter_by(ticketid=ticketid).first()
     if ticket:
         return jsonify(ticket.json())
     return jsonify({"message": "Ticket not found."}), 404
