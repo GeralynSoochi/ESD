@@ -161,7 +161,6 @@ $(document).on('click', 'button[data-id]', function (e){
 	var requested_to = $(this).attr('data-id');
 	console.log(requested_to);
 	e.preventDefault();
-	//var serviceURL = 'http://127.0.0.1:5005/cart/' + sessionStorage.getItem("username");
 	var getURL = 'http://127.0.0.1:5000/game/' + requested_to;
 	fetch(getURL, {method: 'GET'}).then(response =>  {
 		return response.json();
