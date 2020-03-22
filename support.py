@@ -42,12 +42,9 @@ class Ticket(db.Model):
 
 @app.route("/support/", methods=['POST'])
 def create_ticket():
-    # if (Ticket.query.filter_by(ticketid=ticketid).first()):
-    #     return jsonify({"message": "A ticket with ticketid '{}' already exists.".format(ticketid)}), 400
 
     data = request.get_json()
     dateOpen = date.today()
-    # ticket = Ticket(ticketid, dateOpen, **data)
     ticket = Ticket(dateOpen = dateOpen, issueTitle = data["issueTitle"], issueDetails = data["issueDetails"], status = data["status"], username = data["username"])
     
     try:
@@ -57,12 +54,12 @@ def create_ticket():
         return jsonify({"message": "An error occurred creating the ticket."}), 500
     
     #get user details
-    # r = requests.get(accountURL + ticket.username, timeout=2)
-    # print(r)
-    # result = json.loads(r.text.lower())
-    # print(result)
+    r = requests.get(accountURL + ticket.username, timeout=2)
+    print(r)
+    result = json.loads(r.text.lower())
+    print(result)
 
-    # sendemail(ticket.ticketid, ticket.dateOpen, ticket.issueTitle, ticket.issueDetails, ticket.username, result["email"])
+    sendemail(ticket.ticketid, ticket.dateOpen, ticket.issueTitle, ticket.issueDetails, ticket.username, result["email"])
     return jsonify(ticket.json()), 201
 
 

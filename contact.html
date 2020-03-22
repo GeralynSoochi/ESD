@@ -39,7 +39,7 @@
 			<a class="site-logo" href="index.html">
 				<img src="img/logo.png" alt="">
 			</a>
-			<div class="user-panel">
+			<div class="user-panel" id="user">
 				<a href="#">Login</a>  /  <a href="#">Register</a>
 			</div>
 			<!-- responsive -->
@@ -71,18 +71,13 @@
 						<form class="comment-form">
 							<div class="row">
 								<div class="col-md-6">
-									<input type="text" id='username' name='username' placeholder="Username">
 								</div>
-								<!-- <div class="col-md-6">
-									<input type="email" placeholder="Email">
-								</div> -->
 							</div><div class="row">
 								<div class="col-lg-12">
 									<input type="text" name="issueTitle" id="issueTitle" placeholder="Title">
 									<textarea name="issueDetails" id="issueDetails" placeholder="Message"></textarea>
 								</div><div class="col-lg-12">
 									<input type='hidden' name='status' id='status' value='open' />
-									<!-- <input type='text' name='ticketid' id='ticketid' value='9' />						 -->
 									<button type="submit" id="addTicketForm" class="site-btn btn-sm">Send</button></p>
 								</div>
 							</div>
@@ -119,14 +114,29 @@
 	<script src="js/map.js"></script> -->
 
 	<script>
-        // Helper function to display error message
+		if (sessionStorage['user']){
+			// console.log("logged in");
+			$('#user').html("<a href='home.html' id='logout'>Logout</a>");
+		
+		}else{
+			// console.log("not logged in");
+			window.location.href = "index.html";
+
+		}
+		//when user log out
+		$("#logout").click(async (event) => {
+			sessionStorage.clear();
+		});
+
+
+		// Helper function to display error message
         function showError(message) {
             $('#error').text(message);
         }
 
         $("#addTicketForm").click(async (event) => {
             event.preventDefault();
-			var username = $('#username').val();
+			var username = sessionStorage['user']
             var issueTitle = $('#issueTitle').val();
             var issueDetails = $('#issueDetails').val();
             var status= $('#status').val();
