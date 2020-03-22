@@ -50,7 +50,7 @@
 			<a class="site-logo" href="index.html">
 				<img src="img/logo.png" alt="">
 			</a>
-			<div class="user-panel">
+			<div class="user-panel" id="user">
 				<a href="#">Login</a>  /  <a href="#">Register</a>
 			</div>
 			<!-- responsive -->
@@ -88,7 +88,7 @@
 								</div>
 							</div>
 						</form>
-						<h6 id="ticketinfo"></h6>
+						<h6 id="ticketinfo"><br></h6>
 					</div>
 				</div>
 		</div>
@@ -120,6 +120,20 @@
 	<script src="js/map.js"></script> -->
 
 	<script>
+		if (sessionStorage['user']){
+			// console.log("logged in");
+			$('#user').html("<a href='home.html' id='logout'>Logout</a>");
+		
+		}else{
+			// console.log("not logged in");
+			window.location.href = "index.html";
+
+		}
+		//when user log out
+		$("#logout").click(async (event) => {
+			sessionStorage.clear();
+		});
+		
         // Helper function to display error message
         function showError(message) {
             $('#error').text(message);
@@ -142,9 +156,12 @@
                         showError('No Ticket Found.')
                     } else {
 						console.log(ticket)
-                        $('#ticketinfo').text(ticket.ticketid + ticket.dateOpen + ticket.issueTitle + ticket.issueDetails + ticket.status);
+                        document.getElementById("ticketinfo").innerHTML = "Ticket ID: " + ticket.ticketid + "<br>Date Open: " + ticket.dateOpen + "<br>Issue Title: " +ticket.issueTitle + "<br>Issue Details " + ticket.issueDetails + "<br>Ticket Status: " + ticket.status;
 					}
-                }
+                } else {
+						console.log(data);
+                		showError(data.message);
+					}
                 } catch (error) {
                     // Errors when calling the service; such as network error, 
                     // service offline, etc

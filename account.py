@@ -4,7 +4,7 @@ from flask import Flask , request , render_template, redirect, url_for , session
 from flask_cors import CORS
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/game'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/account'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 #app.config.from.object('config')
 api = AuthyApiClient('RpvEtSmOuQHVfDYe2UkRj50ustyfT028')
