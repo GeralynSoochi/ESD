@@ -64,6 +64,7 @@ def delete():
     imageLink = data['imageLink']
 
     remove_cart = Cart(username, name, description, price, imageLink)
+    
     db.session.delete(remove_cart)
     db.session.commit()
 
