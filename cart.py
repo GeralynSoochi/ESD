@@ -14,31 +14,61 @@ CORS(app)
 class Cart(db.Model):
     __tablename__ = 'cart'
  
-    id = db.Column(db.String(13), primary_key=True)
-    account_id = db.Column(db.String(13))
-    name = db.Column(db.String(100))
+    username = db.Column(db.String(100), primary_key=True)
+    name = db.Column(db.String(100), primary_key=True)
     description = db.Column(db.String(500))
     price = db.Column(db.Float(precision=2))
-    category = db.Column(db.String(100))
     imageLink = db.Column(db.String(100))
  
-    def __init__(self, id, account_id, name, description, price, category, imageLink):
-        self.id = id
-        self.account_id = account_id
+    def __init__(self, username, name, description, price, imageLink):
+        self.username = username
         self.name = name
         self.description = description
         self.price = price
-        self.category = category
         self.imageLink = imageLink
  
     def json(self):
-        return {"id": self.id, "account_id": self.account_id, "name": self.name, "description": self.description, "price": self.price, "category": self.category, "imageLink": self.imageLink}
+        return {"username": self.username, "name": self.name, "description": self.description, "price": self.price, "imageLink": self.imageLink}
  
  
-@app.route("/cart")
+@app.route("/cart", methods=['GET'])
 def get_all():
     return jsonify({"cart": [cart.json() for cart in Cart.query.all()]})
 
+@app.route("/cart", methods=['POST'])
+def create_cart():
+
+    data = request.get_json()
+
+    username = data['username']
+    name = data['name']
+    description = data['description']
+    price = data['price']
+    imageLink = data['imageLink']
+
+    new_cart = Cart(username, name, description, price, imageLink)
+
+    db.session.add(new_cart)
+    db.session.commit()
+    return jsonify({"message" : "success"}), 200
+
+
+@app.route("/cart/delete", methods=["DELETE"])
+def delete():
+    data = request.get_json()
+
+    username = data['username']
+    name = data['name']
+    description = data['description']
+    price = data['price']
+    imageLink = data['imageLink']
+
+    remove_cart = Cart(username, name, description, price, imageLink)
+    db.session.delete(remove_cart)
+    db.session.commit()
+
+    return jsonify({"message" : "success"}), 200
+
  
 if __name__ == '__main__':
-    app.run(port=5000, debug=True)
+    app.run(port=5005, debug=True)

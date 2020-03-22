@@ -37,6 +37,12 @@ def get_all():
     return jsonify({"games": [game.json() for game in Game.query.all()]})
  
  
- 
+@app.route("/game/<string:id>")
+def find_by_id(id):
+    game = Game.query.filter_by(id=id).first()
+    if game:
+        return jsonify(game.json())
+    return jsonify({"message": "Game not found."}), 404
+
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

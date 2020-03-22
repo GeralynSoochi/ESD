@@ -141,12 +141,11 @@ $.ajax({
 						// <div class="review-cover set-bg" data-setbg="img/review/5.jpg"><!-- IMAGE URL--><div>
 						"<div class = 'col-md-6'>" +
 						"<div class = 'review-item'>" + 
-						"<div id ='sGame'>" +
 						"<img src=" + game.imageLink + " alt=game>" +
-                        "<h4>" + game.name + "</h4>" +
+                        "<div class = 'title'>" + game.name + "</div>" +
                         "<p>" + game.description + "</p>" +
-                        "<p>$" + game.price + "</p>" +
-						"<button class='site-btn btn-sm'>Add to cart</button>" + 
+                        "<p>" + game.price + "</p>" +
+						"<button class='site-btn btn-sm' data-id='" + game.name + "'>Add to cart</button>" + 
 						"</div><div></div>";
 
                     rows += eachRow + "</div></div>";
@@ -156,16 +155,55 @@ $.ajax({
     }
 });
 
-// $(document).ready(function () {
-//   $("#gameSearch").on("keyup", function () {
-//     var value = $(this).val().toLowerCase();
-//     $("#sGame *").filter(function () {
-//       $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-//     });
-//   });
-// });
+//add button
+$(document).on('click', 'button[data-id]', function (e){
+	var requested_to = $(this).attr('data-id');
+	console.log(requested_to);
+	e.preventDefault();
+	//var serviceURL = 'http://127.0.0.1:5005/cart/' + sessionStorage.getItem("username");
+	var serviceURL = 'http://127.0.0.1:5005/cart';
+	//needa get the info from the game table?
+	var request_body = {
+		username: 'zzz',
+		name: requested_to,
+		description: 'zzz',
+		price: 11.11,
+		imageLink: 'link'
+	};
+	var request_param = {
+		mode: 'cors',
+		method: 'POST',
+		headers:{
+			'Content-Type': 'application/json;charset=utf8'
+		},
+		body: JSON.stringify(request_body)
+	}
+	fetch(serviceURL, request_param).then(response =>  {
+		return response.json();
+	}).then(data => {
+		console.log(data);
+	});
+});
 
 
+$(document).ready(function(){
+  $('#gameSearch').keyup(function(){
+ 
+   // Search text
+   var text = $(this).val().toLowerCase();
+ 
+   // Hide all content class element
+   $('.col-md-6').hide();
+
+   // Search 
+   $('.review-item .title').each(function(){
+ 
+    if($(this).text().toLowerCase().indexOf(""+text+"") != -1 ){
+     $(this).closest('.col-md-6').show();
+    }
+  });
+ });
+});
 /* SCRIPT NOT IN USE
 $(async() => {           
         // Change serviceURL to your own
