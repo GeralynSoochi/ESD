@@ -82,7 +82,7 @@
 									<textarea name="issueDetails" id="issueDetails" placeholder="Message"></textarea>
 								</div><div class="col-lg-12">
 									<input type='hidden' name='status' id='status' value='open' />
-									<input type='text' name='ticketid' id='ticketid' value='9' />						
+									<!-- <input type='text' name='ticketid' id='ticketid' value='9' />						 -->
 									<button type="submit" id="addTicketForm" class="site-btn btn-sm">Send</button></p>
 								</div>
 							</div>
@@ -130,8 +130,8 @@
             var issueTitle = $('#issueTitle').val();
             var issueDetails = $('#issueDetails').val();
             var status= $('#status').val();
-			var ticketid = $('#ticketid').val();
-            var serviceURL = "http://127.0.0.1:5010/support" + "/" + ticketid;
+			// var ticketid = $('#ticketid').val();
+            var serviceURL = "http://127.0.0.1:5010/support/";
             
             try {
                 const response =
