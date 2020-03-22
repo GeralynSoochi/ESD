@@ -21,7 +21,8 @@ class Game(db.Model):
     category = db.Column(db.String(100))
     imageLink = db.Column(db.String(100))
  
-    def __init__(self, name, description, price, category, imageLink):
+    def __init__(self, id, name, description, price, category, imageLink):
+        self.id = id
         self.name = name
         self.description = description
         self.price = price
@@ -29,7 +30,7 @@ class Game(db.Model):
         self.imageLink = imageLink
  
     def json(self):
-        return {"name": self.name, "description": self.description, "price": self.price, "category": self.category, "imageLink": self.imageLink}
+        return {"id": self.id, "name": self.name, "description": self.description, "price": self.price, "category": self.category, "imageLink": self.imageLink}
  
  
 @app.route("/game")
@@ -37,7 +38,7 @@ def get_all():
     return jsonify({"games": [game.json() for game in Game.query.all()]})
  
  
-@app.route("/game/<string:id>")
+@app.route("/game/<string:id>", methods = ['GET'])
 def find_by_id(id):
     game = Game.query.filter_by(id=id).first()
     if game:

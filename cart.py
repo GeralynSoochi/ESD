@@ -53,21 +53,21 @@ def create_cart():
     return jsonify({"message" : "success"}), 200
 
 
-@app.route("/cart/delete", methods=["DELETE"])
-def delete():
-    data = request.get_json()
-
-    username = data['username']
-    name = data['name']
-    description = data['description']
-    price = data['price']
-    imageLink = data['imageLink']
-
-    remove_cart = Cart(username, name, description, price, imageLink)
+@app.route("/cart/<string:username>/<string:name>", methods=["DELETE"])
+def delete(username, name):
+    remove_cart = Cart.query.filter_by(username = username, name = name).first()
     db.session.delete(remove_cart)
     db.session.commit()
 
     return jsonify({"message" : "success"}), 200
+
+@app.route("/cart/<string:username>", methods = ['GET'])
+def find_by_username(username):
+    cart = Cart.query.filter_by(username=username).first()
+    if cart:
+        return jsonify(cart.json())
+    return jsonify({"message": "Item not found."}), 404
+
 
  
 if __name__ == '__main__':

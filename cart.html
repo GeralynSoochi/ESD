@@ -276,33 +276,24 @@
 	</script>
 	<!-- button testing -->
 	<script>
+		sessionStorage.setItem("user", 'chenyudineng');
 		//button to delete
 		$(document).on('click', 'button[data-id]', function (e){
 			var requested_to = $(this).attr('data-id');
 			console.log(requested_to);
 			e.preventDefault();
-			var serviceURL = 'http://127.0.0.1:5005/cart/delete';
-			var request_body = {
-				//needa take from session
-				//username: sessionStorage.getItem("username"),
-				username: 'abc',
-				name: 'abc',
-				description: 'abc',
-				price: 12.23,
-				imageLink: 'link'
-			};
-			var request_param = {
-				mode: 'cors',
-				method: 'DELETE',
-				headers:{
-					'Content-Type': 'application/json;charset=utf8'
-				},
-				body: JSON.stringify(request_body)
-			}
-			fetch(serviceURL, request_param).then(response =>  {
+			var getURL = 'http://127.0.0.1:5005/cart/' + sessionStorage.getItem("user");
+			fetch(getURL, {method: 'GET'}).then(response =>  {
 				return response.json();
 			}).then(data => {
 				console.log(data);
+				var serviceURL = 'http://127.0.0.1:5005/cart/' + sessionStorage.getItem("user") + '/' + requested_to;
+				fetch(serviceURL, {method: 'DELETE'}).then(response =>  {
+					return response.json();
+				}).then(data => {
+					console.log(data);
+					location.reload();
+				});
 			});
 		});
 	</script>
