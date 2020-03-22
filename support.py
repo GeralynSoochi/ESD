@@ -26,18 +26,18 @@ class Ticket(db.Model):
     issueDetails = db.Column(db.String(), nullable=False)
     status = db.Column(db.String(10), nullable=False)
     dateOpen = db.Column(db.DateTime(), nullable=False)
-    userID = db.Column(db.Integer, nullable=False)
+    username = db.Column(db.String(100), nullable=False)
 
-    def __init__(self, ticketid, dateOpen, issueTitle, issueDetails, status, userID):
+    def __init__(self, ticketid, dateOpen, issueTitle, issueDetails, status, username):
         self.ticketid = ticketid
         self.dateOpen = dateOpen
         self.issueTitle = issueTitle
         self.issueDetails = issueDetails
         self.status = status
-        self.userID = userID
+        self.username = username
 
     def json(self):
-        return {"ticketid": self.ticketid, "dateOpen": self.dateOpen, "issueTitle": self.issueTitle, "issueDetails": self.issueDetails, "status": self.status, "userID": self.userID}
+        return {"ticketid": self.ticketid, "dateOpen": self.dateOpen, "issueTitle": self.issueTitle, "issueDetails": self.issueDetails, "status": self.status, "username": self.username}
 
 
 @app.route("/support/<int:ticketid>", methods=['POST'])
@@ -56,10 +56,12 @@ def create_ticket(ticketid):
         return jsonify({"message": "An error occurred creating the ticket."}), 500
     
     #get user details
-    r = requests.get(accountURL + ticket.userID, timeout=2)
-    email = r.
+    r = requests.get(accountURL + ticket.username, timeout=2)
+    print(r)
+    result = json.loads(r.text.lower())
+    print(result)
 
-    sendemail(ticket.ticketid, ticket.dateOpen, ticket.issueTitle, ticket.issueDetails)
+    sendemail(ticket.ticketid, ticket.dateOpen, ticket.issueTitle, ticket.issueDetails, ticket.username, result["email"])
     return jsonify(ticket.json()), 201
 
 

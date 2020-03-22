@@ -1,4 +1,4 @@
-def sendemail(ticketid, dateOpen, issueTitle, issueDetails):
+def sendemail(ticketid, dateOpen, issueTitle, issueDetails, username, email):
   from mailjet_rest import Client
   import os
   api_key = '8a1c7c18d061725a36de6e19d9f4a2f9'
@@ -13,13 +13,13 @@ def sendemail(ticketid, dateOpen, issueTitle, issueDetails):
         },
         "To": [
           {
-            "Email": "scgoh.2018@sis.smu.edu.sg",
-            "Name": "Geralyn"
+            "Email": email,
+            "Name": username
           }
         ],
-        "Subject": "Greetings from Mailjet.",
-        "TextPart": "My first Mailjet email",
-        "HTMLPart": issueDetails,
+        "Subject": "You opened a ticket.",
+        "TextPart": "Here is your ticket",
+        "HTMLPart": "Your ticket details are as follows: <br> Title: " + issueTitle + "<br> TicketID: " + str(ticketid) + "<br> Description: " + issueDetails + "<br> Date Opened: " + str(dateOpen),
         "CustomID": "AppGettingStartedTest"
       }
     ]
