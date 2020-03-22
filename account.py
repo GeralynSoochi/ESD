@@ -4,7 +4,7 @@ from flask import Flask , request , render_template, redirect, url_for , session
 from flask_cors import CORS
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/game'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/account'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 #app.config.from.object('config')
 api = AuthyApiClient('RpvEtSmOuQHVfDYe2UkRj50ustyfT028')
@@ -34,23 +34,37 @@ class Account(db.Model):
         return {"username": self.username, "password": self.password, "email": self.email, "phone": self.phone}
 
 
-@app.route("/signup", methods =["POST"])
-def signup():
+@app.route("/signup/<string:username>", methods =["POST"])
+def signup(username):
         data = request.json
-        phoneNumber =data
-       
+        username = data['username']
+        password = data['password']
+        email = data['email']
+        phone = data['phoneNumber']
+        if (Account.query.filter_by(username=username).first()):
+            return jsonify({"message": "An account with username '{}' already exists.".format(username)}), 400
+        elif (Account.query.filter_by(email=email).first()):
+            return jsonify({"message": "An account with email '{}' already exists.".format(email)}), 400
+        elif (Account.query.filter_by(phone=phone).first()):
+            return jsonify({"message": "An account with phone '{}' already exists.".format(phone)}), 400
+        # phoneNumber =data
         #session['phoneNumber'] = phoneNumber
         #test = session.get
-        api.phones.verification_start(phoneNumber , "+65" , via="sms")
-        
-        return jsonify({"message": "success"}), 200
+        api.phones.verification_start(phone , "+65" , via="sms")
+        account = Account(username, password, email,phone)
+        try:
+            db.session.add(account)
+            db.session.commit()
+        except:
+            return jsonify({"message": "An error occurred creating the account."}), 500
+
+        return jsonify(account.json()), 201
+        # return jsonify({"message": "success"}), 200
+
         #data = {'message': 'Created', 'code': 'SUCCESS'}
         #return make_response(jsonify(data), 200)
-
         #return json.dumps({'phoneNumber':phoneNumber}), 200, {'ContentType':'application/json'}
-
         #return redirect("http://localhost/git-esd/ESD/verifyaccount")
-
         #return redirect(url_for("http://localhost/git-esd/ESD/verifyaccount"))
 
 
@@ -100,4 +114,4 @@ def login(username):
     return jsonify({"message": "User not found."}), 404
 
 if __name__ == '__main__':
-   app.run(port=5000, debug=True)
+   app.run(port=5003, debug=True)
