@@ -71,7 +71,7 @@
 						<form class="comment-form">
 							<div class="row">
 								<div class="col-md-6">
-									<input type="text" id='userID' name='userID' placeholder="UserID">
+									<input type="text" id='username' name='username' placeholder="Username">
 								</div>
 								<!-- <div class="col-md-6">
 									<input type="email" placeholder="Email">
@@ -126,7 +126,7 @@
 
         $("#addTicketForm").click(async (event) => {
             event.preventDefault();
-			var userID = $('#userID').val();
+			var username = $('#username').val();
             var issueTitle = $('#issueTitle').val();
             var issueDetails = $('#issueDetails').val();
             var status= $('#status').val();
@@ -137,7 +137,7 @@
                 const response =
                  await fetch(
                     serviceURL, { method: 'POST', headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ issueTitle: issueTitle, issueDetails: issueDetails, status: status, userID: userID})
+                    body: JSON.stringify({ issueTitle: issueTitle, issueDetails: issueDetails, status: status, username: username})
                 }
                 );
                 const data = await response.json();

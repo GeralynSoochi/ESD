@@ -37,10 +37,11 @@ CREATE TABLE IF NOT EXISTS `ticket` (
   `issueDetails` varchar(100) NOT NULL,
   `status` varchar(10) NOT NULL,
   `dateOpen` varchar(15) NOT NULL,
-  `userID` int NOT NULL,
+  `username` varchar(100) NOT NULL,
   PRIMARY KEY (`ticketid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+ALTER TABLE `ticket` ADD CONSTRAINT `ticket_fk1` FOREIGN KEY (`username`) REFERENCES `account`.`account`(`username`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
