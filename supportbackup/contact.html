@@ -114,7 +114,7 @@
 	<script src="js/map.js"></script> -->
 
 	<script>
-		if (sessionStorage['username']){
+		if (sessionStorage['user']){
 			// console.log("logged in");
 			$('#user').html("<a href='home.html' id='logout'>Logout</a>");
 		
@@ -136,13 +136,13 @@
 
         $("#addTicketForm").click(async (event) => {
             event.preventDefault();
-			var username = sessionStorage['username']
+			var username = sessionStorage['user']
             var issueTitle = $('#issueTitle').val();
             var issueDetails = $('#issueDetails').val();
             var status= $('#status').val();
 			// var ticketid = $('#ticketid').val();
             var serviceURL = "http://127.0.0.1:5010/support/";
-            console.log(username)
+            
             try {
                 const response =
                  await fetch(

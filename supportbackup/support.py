@@ -16,8 +16,7 @@ db = SQLAlchemy(app)
 CORS(app)
 
 import requests
-accountURL = "http://localhost:5003/account/"
-mailjetURL = "http://localhost:5012/mailjet/"
+accountURL = "http://localhost:5000/account/"
 
 class Ticket(db.Model):
     __tablename__ = 'ticket'
@@ -60,9 +59,7 @@ def create_ticket():
     result = json.loads(r.text.lower())
     print(result)
 
-    ticketdetails = {"ticketid": ticket.ticketid, "dateOpen": ticket.dateOpen, "issueTitle": ticket.issueTitle, "issueDetails": ticket.issueDetails, "username": ticket.username, "email": result["email"]}
-    r = requests.post(mailjetURL, json = ticketdetails)
-    # sendemail(ticket.ticketid, ticket.dateOpen, ticket.issueTitle, ticket.issueDetails, ticket.username, result["email"])
+    sendemail(ticket.ticketid, ticket.dateOpen, ticket.issueTitle, ticket.issueDetails, ticket.username, result["email"])
     return jsonify(ticket.json()), 201
 
 
