@@ -152,10 +152,9 @@
                 );
                 const data = await response.json();
                 if (response.ok) {
-                    $('.submitted').text("Ticket '" + data.issueTitle + "' has been submitted!");
-                
+                    $('.submitted').text("Ticket '" + data.issuetitle + "' has been submitted!");
+
                     } else {
-						console.log(data);
                 		showError(data.message);
 					}
                 } catch (error) {

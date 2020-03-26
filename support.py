@@ -8,73 +8,40 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import date
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/ticket'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-db = SQLAlchemy(app)
 CORS(app)
 
 import requests
+ticketURL = "http://localhost:5011/ticket/"
 accountURL = "http://localhost:5003/account/"
 emailsURL = "http://localhost:5012/emails/"
 
-class Ticket(db.Model):
-    __tablename__ = 'ticket'
-
-    ticketid = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    issueTitle = db.Column(db.String(100), nullable=False)
-    issueDetails = db.Column(db.String(), nullable=False)
-    status = db.Column(db.String(10), nullable=False)
-    dateOpen = db.Column(db.DateTime(), nullable=False)
-    username = db.Column(db.String(100), nullable=False)
-
-    def __init__(self, dateOpen, issueTitle, issueDetails, status, username):
-        # self.ticketid = ticketid
-        self.dateOpen = dateOpen
-        self.issueTitle = issueTitle
-        self.issueDetails = issueDetails
-        self.status = status
-        self.username = username
-
-    def json(self):
-        return {"ticketid": self.ticketid, "dateOpen": self.dateOpen, "issueTitle": self.issueTitle, "issueDetails": self.issueDetails, "status": self.status, "username": self.username}
-
 
 @app.route("/support/", methods=['POST'])
-def create_ticket():
-
+def send_ticket():
     data = request.get_json()
-    dateOpen = date.today()
-    ticket = Ticket(dateOpen = dateOpen, issueTitle = data["issueTitle"], issueDetails = data["issueDetails"], status = data["status"], username = data["username"])
-    
-    try:
-        db.session.add(ticket)
-        db.session.commit()
-    except:
-        return jsonify({"message": "An error occurred creating the ticket."}), 500
-    
-    #get user details
-    r = requests.get(accountURL + ticket.username, timeout=2)
-    print(r)
+
+    #get user details: account.py
+    r = requests.get(accountURL + data["username"], timeout=2)
     result = json.loads(r.text.lower())
+    if r.status_code != requests.codes.ok: #return error message
+        return jsonify({"message": "Your username is invalid. Please check your login details."}), 404
     print(result)
 
-    ticketdetails = {"ticketid": ticket.ticketid, "dateOpen": ticket.dateOpen, "issueTitle": ticket.issueTitle, "issueDetails": ticket.issueDetails, "username": ticket.username, "email": result["email"]}
+    #create ticket: ticket.py
+    r = requests.post(ticketURL, json = data)
+    ticket = json.loads(r.text.lower())
+    if r.status_code != 201: #return error message
+        return jsonify({"message": "An error occurred creating the ticket. Please check your ticket details."}), 500
+
+
+    #send email: emails.py
+    ticketdetails = {"ticketid": ticket["ticketid"], "dateOpen": ticket["dateopen"], "issueTitle": ticket["issuetitle"], "issueDetails": ticket["issuedetails"], "username": ticket["username"], "email": result["email"]}
     r = requests.post(emailsURL, json = ticketdetails)
-    # sendemail(ticket.ticketid, ticket.dateOpen, ticket.issueTitle, ticket.issueDetails, ticket.username, result["email"])
-    return jsonify(ticket.json()), 201
+    if r.status_code != requests.codes.ok: #return error message
+        return jsonify({"message": "Your ticket has been logged, however there was an issue with the email service."}), 404
 
-
-@app.route("/support/<int:ticketid>")
-def retrieve_ticket(ticketid):
-    ticket = Ticket.query.filter_by(ticketid=ticketid).first()
-    if ticket:
-        return jsonify(ticket.json())
-    return jsonify({"message": "Ticket not found."}), 404
+    return jsonify(ticket), 201
 
 
 if __name__ == '__main__':
     app.run(port=5010, debug=True)
-
-#create support ticket = composite
-#ticket msvc, acc msvc, email msvc
