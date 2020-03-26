@@ -6,7 +6,6 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from datetime import date
-from mailjet import sendemail
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/ticket'
@@ -17,7 +16,7 @@ CORS(app)
 
 import requests
 accountURL = "http://localhost:5003/account/"
-mailjetURL = "http://localhost:5012/mailjet/"
+emailsURL = "http://localhost:5012/emails/"
 
 class Ticket(db.Model):
     __tablename__ = 'ticket'
@@ -61,7 +60,7 @@ def create_ticket():
     print(result)
 
     ticketdetails = {"ticketid": ticket.ticketid, "dateOpen": ticket.dateOpen, "issueTitle": ticket.issueTitle, "issueDetails": ticket.issueDetails, "username": ticket.username, "email": result["email"]}
-    r = requests.post(mailjetURL, json = ticketdetails)
+    r = requests.post(emailsURL, json = ticketdetails)
     # sendemail(ticket.ticketid, ticket.dateOpen, ticket.issueTitle, ticket.issueDetails, ticket.username, result["email"])
     return jsonify(ticket.json()), 201
 

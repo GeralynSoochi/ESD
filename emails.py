@@ -12,7 +12,7 @@ app = Flask(__name__)
 
 CORS(app)
 
-@app.route("/mailjet/", methods=['POST'])
+@app.route("/emails/", methods=['POST'])
 # def sendemail(ticketid, dateOpen, issueTitle, issueDetails, username, email):
 def sendemail():
   api_key = '8a1c7c18d061725a36de6e19d9f4a2f9'
@@ -50,7 +50,6 @@ def sendemail():
   result = mailjet.send.create(data=content)
   print (result.status_code)
   print (result.json())
-  print ("email")
   return result.json(), result.status_code
 
 if __name__ == '__main__':
