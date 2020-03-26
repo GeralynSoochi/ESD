@@ -73,3 +73,6 @@ def retrieve_ticket(ticketid):
 
 if __name__ == '__main__':
     app.run(port=5010, debug=True)
+
+#create support ticket = composite
+#ticket msvc, acc msvc, email msvc
