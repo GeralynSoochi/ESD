@@ -7,16 +7,12 @@ from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from datetime import date
 from mailjet_rest import Client
-import os
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/ticket'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db = SQLAlchemy(app)
 CORS(app)
 
-@app.route("/email/", methods=['POST'])
+@app.route("/mailjet/", methods=['POST'])
 # def sendemail(ticketid, dateOpen, issueTitle, issueDetails, username, email):
 def sendemail():
   api_key = '8a1c7c18d061725a36de6e19d9f4a2f9'
@@ -30,7 +26,7 @@ def sendemail():
   username = data["username"]
   email = data["email"]
   
-  email = {
+  content = {
     'Messages': [
       {
         "From": {
@@ -50,7 +46,8 @@ def sendemail():
       }
     ]
   }
-  result = mailjet.send.create(data=email)
+  print(content)
+  result = mailjet.send.create(data=content)
   print (result.status_code)
   print (result.json())
   print ("email")
