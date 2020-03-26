@@ -120,7 +120,7 @@
 	<script src="js/map.js"></script> -->
 
 	<script>
-		if (sessionStorage['user']){
+		if (sessionStorage['username']){
 			// console.log("logged in");
 			$('#user').html("<a href='home.html' id='logout'>Logout</a>");
 		
@@ -141,7 +141,7 @@
         $("#findticket").click(async (event) => {
             event.preventDefault();
 			var ticketid = $('#ticketid').val();
-            var serviceURL = "http://127.0.0.1:5010/support" + "/" + ticketid;
+            var serviceURL = "http://127.0.0.1:5011/ticket" + "/" + ticketid;
             
             try {
                 const response =
