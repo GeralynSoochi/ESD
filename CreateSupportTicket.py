@@ -16,7 +16,7 @@ accountURL = "http://localhost:5003/account/"
 emailsURL = "http://localhost:5012/emails/"
 
 
-@app.route("/support/", methods=['POST'])
+@app.route("/CreateSupportTicket/", methods=['POST'])
 def send_ticket():
     data = request.get_json()
 
