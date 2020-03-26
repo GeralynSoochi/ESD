@@ -115,6 +115,7 @@
 	<script src="js/main.js"></script>
 	<script>
 		function showError(message) {
+			$('#errormsg').empty();
 			$('#errormsg').append(message);
 		}
 		// console.log("test");
@@ -123,7 +124,7 @@
 			event.preventDefault();
 			var username = $.trim($('#username').val());
 			var password= $.trim($('#password').val());
-			var serviceURL = "http://127.0.0.1:5000/account"+"/"+username;
+			var serviceURL = "http://127.0.0.1:5003/account"+"/"+username;
 			try {
 				const response =
 				await fetch(
@@ -132,7 +133,9 @@
 				const data = await response.json();
 				console.log(data.email);
 				if (data.email && data.password == password) {
-					sessionStorage.setItem("user",data.username);
+					sessionStorage.setItem("username",data.username);
+					sessionStorage.setItem("email",data.email);
+					sessionStorage.setItem("phoneNumber",data.phoneNumber);
 					window.location.href = "home.html";
 				} else {
 					showError('Incorrect username or password');

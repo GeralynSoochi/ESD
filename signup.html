@@ -70,7 +70,7 @@
 							<span class="lnr lnr-phone"></span>
 						</span>
 					</div>
-					
+					<div id="errormsg"></div>
 		
 					<div class="container-login100-form-btn p-t-25">
 						<button id="btnRegister" class="login100-form-btn">
@@ -139,62 +139,64 @@
 // function WebFormData(message){
 //     this.message = message
 // }
-
+function showError(message) {
+	$('#errormsg').empty();
+	$('#errormsg').append(message);
+}
 $('#btnRegister').click(function (e){
-				e.preventDefault();
-				//var serviceURL = 'http://localhost:5000/signup';
-				var serviceURL = 'http://localhost:5000/signup';
-                var request_body = {
-					//username: $('#').val(),
-					//email: $('#').val(),
-					phoneNumber: $('#phoneNumber').val()
-                 /*   title:$("#title").val(),
-                    price:parseFloat($("#price").val()),
-                    availability:parseInt($("#availability").val())*/
-                };
-                var request_param = {
-                    mode: 'cors',
-                    method: 'POST',
-                    headers:{
-                        'Content-Type': 'application/json;charset=utf8'
-                    },
-                    body: JSON.stringify(request_body)
-                }
-				fetch(serviceURL, request_param).then(response =>  {
-					return response.json();
-					
+	e.preventDefault();
+	var serviceURL = 'http://localhost:5003/signup'+'/'+$('#username').val();
+	var request_body = {
+		username: $.trim($('#username').val()),
+		password: $.trim($('#password').val()),
+		email: $.trim($('#email').val()),
+		phoneNumber: $.trim($('#phoneNumber').val())
+	};
+	// console.log(request_body);
+	var request_param = {
+		mode: 'cors',
+		method: 'POST',
+		headers:{
+			'Content-Type': 'application/json;charset=utf8'
+		},
+		body: JSON.stringify(request_body)
+	}
+	fetch(serviceURL, request_param).then(response =>  {
+		return response.json();
+	}).then(data => {
+		console.log(data);
+		if (data['message'] == "success"){
+		sessionStorage.setItem("username",$('#username').val());
+		sessionStorage.setItem("email",$('#email').val());
+		sessionStorage.setItem("password",$('#password').val());
+		sessionStorage.setItem("phoneNumber",$('#phoneNumber').val());
+		window.location.href='verifyaccount.html';
 
-				}).then(data => {
-					console.log(data);
-					 if (data['message'] == "success"){
-						sessionStorage.setItem("username",$('#username').val());
-						sessionStorage.setItem("email",$('#email').val());
-						sessionStorage.setItem("password",$('#password').val());
-					 	sessionStorage.setItem("phoneNumber",$('#phoneNumber').val());
-					 	window.location.replace("http://localhost/git-esd/ESD/verifyaccount");
-
-					 }
+		}
+		else{
+			showError(data['message']);
+		}
 
 
-				})
-					
-				
-    
+	})
+		
+	
 
-				// try {
-                //     const response =  fetch(serviceURL, request_param);
-                //     const data =  response.json();
-                //     if (response.ok){
-                //         //const data = response.json();
-                //         console.log('babi bodho')
 
-                //     }else{
-                //         console.log("error");
-                //     }
-                // } catch(error){
-                //     console.log(error);
-                // }
-			});
+	// try {
+	//     const response =  fetch(serviceURL, request_param);
+	//     const data =  response.json();
+	//     if (response.ok){
+	//         //const data = response.json();
+	//         console.log('babi bodho')
+
+	//     }else{
+	//         console.log("error");
+	//     }
+	// } catch(error){
+	//     console.log(error);
+	// }
+});
 
 </script>
 </html>
