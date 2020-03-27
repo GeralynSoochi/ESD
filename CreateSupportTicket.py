@@ -14,7 +14,7 @@ import requests
 ticketURL = "http://localhost:5011/ticket/"
 accountURL = "http://localhost:5003/account/"
 emailsURL = "http://localhost:5012/emails/"
-
+telegramURL = "https://api.telegram.org/bot733055974:AAEsyKoq3z5mquv0k_xmzugu_dej_1MbdtA/sendMessage?chat_id=-1001267215209&parse_mode=Markdown&text="
 
 @app.route("/CreateSupportTicket/", methods=['POST'])
 def send_ticket():
@@ -38,7 +38,15 @@ def send_ticket():
     ticketdetails = {"ticketid": ticket["ticketid"], "dateOpen": ticket["dateopen"], "issueTitle": ticket["issuetitle"], "issueDetails": ticket["issuedetails"], "username": ticket["username"], "email": result["email"]}
     r = requests.post(emailsURL, json = ticketdetails)
     if r.status_code != requests.codes.ok: #return error message
-        return jsonify({"message": "Your ticket has been logged, however there was an issue with the email service."}), 404
+        return jsonify({"message": "Your ticket has been logged, however there was an issue with the email service. You might not receive an email."}), 404
+
+    #send telegram messages to support staff
+    bot_message = "User " +  ticket["username"] + " submitted a new ticket. The details are as follows:\nTicket ID: " + str(ticket["ticketid"]) + "\nIssue Title: " + ticket["issuetitle"] + "\nIssue Details: " + ticket["issuedetails"]
+    send_text = telegramURL + bot_message
+    response = requests.get(send_text)
+    response = response.json()
+    if response["ok"] == False:
+        return jsonify({"message": "Your ticket has been logged. We apologise in advance for any delays in support replies."}), 404
 
     return jsonify(ticket), 201
 
