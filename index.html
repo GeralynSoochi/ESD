@@ -16,6 +16,10 @@
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
 	integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
 	crossorigin="anonymous"></script>	
+
+	<script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+
 <!--===============================================================================================-->	
 	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
 <!--===============================================================================================-->
@@ -113,7 +117,15 @@
 	<script src="vendor/select2/select2.min.js"></script>
 <!--===============================================================================================-->
 	<script src="js/main.js"></script>
-	<script>
+	<script>	
+		if (Cookies.get("remember") == 'true'){
+			$('#username').val(Cookies.get("username"));
+			pw = (CryptoJS.AES.decrypt(Cookies.get("password").toString(),"sekretkey")).toString(CryptoJS.enc.Utf8);
+
+			$('#password').val(pw);
+			$('#ckb1').prop("checked",true)
+		}
+		
 		function showError(message) {
 			$('#errormsg').empty();
 			$('#errormsg').append(message);
@@ -135,8 +147,21 @@
 				if (data.email && data.password == password) {
 					sessionStorage.setItem("username",data.username);
 					sessionStorage.setItem("email",data.email);
-					sessionStorage.setItem("phoneNumber",data.phoneNumber);
+					console.log($('#ckb1').is(":checked"))
+					Cookies.set("username",username,{expires: 14})
+					if ($('#ckb1').is(':checked') == true) {
+						// set cookies to expire in 14 days
+						Cookies.set('username', username, { expires: 14 });
+						Cookies.set('password', CryptoJS.AES.encrypt(password,'sekretkey'), {expires: 14});
+						Cookies.set('remember', true, { expires: 14 });
+					} else {
+						// reset cookies
+						Cookies.set('username', undefined);
+						Cookies.set('password', undefined);
+						Cookies.set('remember', undefined);
+					}
 					window.location.href = "home.html";
+
 				} else {
 					showError('Incorrect username or password');
 				}
@@ -147,6 +172,7 @@
 				('There is a problem logging in, please try again later.<br />'+error);
 			} // error
 		});
+		
 	</script>
 
 </body>

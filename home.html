@@ -175,7 +175,7 @@
 	<script src="js/main.js"></script>
 	<script>
 		// check if user is logged in 
-		if (sessionStorage['user']){
+		if (sessionStorage['username']){
 			// console.log("logged in");
 			$('#user').html("<a href='home.html' id='logout'>Logout</a>");
 		
@@ -187,6 +187,7 @@
 		$("#logout").click(async (event) => {
 			sessionStorage.clear();
 		});
+		
 	</script>
     </body>
 </html>
