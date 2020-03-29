@@ -2,14 +2,110 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
+    <title>Checkout</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<!-- <script src="js/jquery-3.2.1.min.js"></script> -->
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/owl.carousel.min.js"></script>
+	<script src="js/jquery.marquee.min.js"></script>
+    <script src="js/main.js"></script>
+
 </head>
 <body>
+    <div id="main-container" class="container">
+		<h1 class="display-4">Cart</h1>
+		<table id="cartTable" class='table table-striped' border='1'>
+			<thead class='clear'>
+				<tr>
+					<th>Image</th>
+					<th>Name</th>
+					<th>Description</th>
+					<th>Price</th>
+				</tr>
+			</thead>
+		</table>
+    </div>
+    
+    <!-- <li class="d-flex flex-row align-items-center justify-content-start"> -->
+        <div class="cart_extra_total_title">Total</div>
+        <div class="cart_extra_total_value ml-auto" id ="total_price"></div>
+    <!-- </li> -->
     <div id="paypal-button"></div>
 
-<script src="https://www.paypalobjects.com/api/checkout.js"></script>
-
+    <script src="https://www.paypalobjects.com/api/checkout.js"></script>
 <script>
+    sessionStorage.setItem("user", 'zzz');
+    // Helper function to display error message
+    function showError(message) {
+        // Hide the table and button in the event of error
+        $('#cartTable').hide();
+        // Display an error under the main container
+        $('#main-container')
+            .append("<label>"+message+"</label>");
+    }
+
+    // anonymous async function 
+    // - using await requires the function that calls it to be async
+    //console.log('hi');
+    $(async() => {      
+        //console.log('async');  
+        // Change serviceURL to your own
+        var serviceURL = "http://127.0.0.1:5005/cart/" + sessionStorage.getItem("user");
+        try {
+            const response =
+                await fetch(
+                serviceURL, { method: 'GET' }
+            );
+            const data = await response.json();
+            var cart = data.cart; //the arr is in data.books of the JSON data
+            // array or array.length are falsy
+            if (!cart || !cart.length) {
+                showError('Cart is empty')
+            } else {
+                // for loop to setup all table rows with obtained book data
+                var rows = "";
+                var sub_total = 0;
+                for (const item of cart) {
+                    var name = item.name + "_button";
+                    //console.log(name);
+                    eachRow =
+                        "<td>" + item.imageLink + "</td>" +
+                        "<td>" + item.name + "</td>" +
+                        "<td>" + item.description + "</td>" +
+                        "<td>" + item.price + "</td>";
+                        //"<td>" + "<button class='site-btn btn-sm' id=" + name + ">Delete</button>" + "</td>";
+                        sub_total += item.price;
+                        //console.log(sub_total);
+                        //button to delete
+                        console.log(name);
+                    rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
+                }
+                // add all the rows to the table
+                $('#cartTable').append(rows);
+            }
+            if (sub_total > 0){
+                document.getElementById("total_price").innerHTML = sub_total;
+                total = sub_total
+            }
+        } catch (error) {
+            // Errors when calling the service; such as network error, 
+            // service offline, etc
+            showError
+            ('There is a problem retrieving games data, please try again later.<br />'+error);
+            
+        } // error
+    });
+    var username = 'zzz'
+    var total = 0
+    $(window).on('load', function() {
+        final_total = document.getElementById("total_price").innerHTML;
+        // console.log (total);
+        // total_json = {'total': total};
+        // console.log(total_json);
+
+    // });
+
+    // console.log (total);
     var CREATE_PAYMENT_URL  = 'http://127.0.0.1:5008/payment';
     var EXECUTE_PAYMENT_URL = 'http://127.0.0.1:5008/execute';
 
@@ -20,24 +116,48 @@
         commit: true, // Show a 'Pay Now' button
 
         payment: function() {
-            return paypal.request.post(CREATE_PAYMENT_URL).then(function(data) {
+            return paypal.request({ method :'post', url: CREATE_PAYMENT_URL, json: {total: final_total}}).then(function(data) {
                 return data.paymentID;
             });
         },
 
+        // payment: function() {
+        //     return paypal.request.post(CREATE_PAYMENT_URL, json = JSON.stringify(total)).then(function(data) {
+        //         return data.paymentID;
+        //     });
+        // },
+
+
         onAuthorize: function(data) {
             return paypal.request.post(EXECUTE_PAYMENT_URL, {
                 paymentID: data.paymentID,
-                payerID:   data.payerID
+                payerID:   data.payerID,
             }).then(function(res) {
+
+        // onAuthorize: function(data) {
+        //     return paypal.request({ method :'post', url: EXECUTE_PAYMENT_URL, json: {user: username}} , {
+        //         paymentID: data.paymentID,
+        //         payerID:   data.payerID
+        //     }).then(function(res) {
 
                 console.log(res.success)
                 // The payment is complete!
                 // You can now show a confirmation message to the customer
+            }).then(function() {
+                console.log(username)
+                var serviceURL = 'http://127.0.0.1:5005/cart/delete/'+username;
+                fetch(serviceURL, {method: 'DELETE'})
+                .then(response =>  {
+					return response.json();
+				})
+                .then(function(){
+                    location.reload();
+                })
             });
         }
 
     }, '#paypal-button');
+});
 </script>
 </body>
 </html>
