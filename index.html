@@ -16,6 +16,13 @@
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
 	integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
 	crossorigin="anonymous"></script>	
+
+	<script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+	<style>
+		#fb-btn{margin-top: -40px;}
+	</style>
+	
 <!--===============================================================================================-->	
 	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
 <!--===============================================================================================-->
@@ -82,10 +89,18 @@
 						</span>
 					</div>
 
-					<a href="#" class="btn-face m-b-10">
+					<!-- <a href="#" class="btn-face m-b-10">
 						<i class="fa fa-facebook-official"></i>
 						Facebook
-					</a>
+					</a> -->
+
+					<fb:login-button 
+					id="fb-btn"
+					size = "xlarge"
+					scope="public_profile,email"
+					onlogin="checkLoginState();" class="text-center w-full p-t-42 p-b-22">
+					facebook
+					</fb:login-button>
 
 					<div class="text-center w-full p-t-115">
 						<span class="txt1">
@@ -115,6 +130,7 @@
 	<!-- <script src="js/main.js"></script> -->
 	<script>
 		function showError(message) {
+			$('#errormsg').empty();
 			$('#errormsg').append(message);
 		}
 		// console.log("test");
@@ -123,7 +139,7 @@
 			event.preventDefault();
 			var username = $.trim($('#username').val());
 			var password= $.trim($('#password').val());
-			var serviceURL = "http://127.0.0.1:5000/account"+"/"+username;
+			var serviceURL = "http://127.0.0.1:5003/account"+"/"+username;
 			try {
 				const response =
 				await fetch(
@@ -132,8 +148,23 @@
 				const data = await response.json();
 				console.log(data.email);
 				if (data.email && data.password == password) {
-					sessionStorage.setItem("user",data.username);
+					sessionStorage.setItem("username",data.username);
+					sessionStorage.setItem("email",data.email);
+					console.log($('#ckb1').is(":checked"))
+					Cookies.set("username",username,{expires: 14})
+					if ($('#ckb1').is(':checked') == true) {
+						// set cookies to expire in 14 days
+						Cookies.set('username', username, { expires: 14 });
+						Cookies.set('password', CryptoJS.AES.encrypt(password,'sekretkey'), {expires: 14});
+						Cookies.set('remember', true, { expires: 14 });
+					} else {
+						// reset cookies
+						Cookies.set('username', undefined);
+						Cookies.set('password', undefined);
+						Cookies.set('remember', undefined);
+					}
 					window.location.href = "home.html";
+
 				} else {
 					showError('Incorrect username or password');
 				}
@@ -144,7 +175,70 @@
 				('There is a problem logging in, please try again later.<br />'+error);
 			} // error
 		});
+		
 	</script>
+	<script>
+		window.fbAsyncInit = function() {
+		  FB.init({
+			appId      : '1269438783446783',
+			cookie     : true,
+			xfbml      : true,
+			version    : 'v6.0'
+		  });
+			
+		  FB.AppEvents.logPageView();  
+	
+		  FB.getLoginStatus(function(response) {
+			statusChangeCallback(response);
+			console.log(response);
+		  });
+		};
+		
+		(function(d, s, id){
+		   var js, fjs = d.getElementsByTagName(s)[0];
+		   if (d.getElementById(id)) {return;}
+		   js = d.createElement(s); js.id = id;
+		   js.src = "https://connect.facebook.net/en_US/sdk.js";
+		   fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+		
+		function statusChangeCallback(response){
+			if(response.status === 'connected'){
+				FB.api('/me?fields=name,email', function(response){
+					if (response && !response.error){
+						sessionStorage.setItem("username",response.email);
+						sessionStorage.setItem("email",response.email);
+						console.log(response)
+						console.log('Logged in and authenticated');
+						window.location.href = "home.html";
+					}
+					else{
+						error=['Problem connecting to Facebook	']
+					}
+				})
+				
+	
+			} else{
+				sessionStorage.clear()
+				console.log('Not authenticated');
+			}
+		}
+		
+		function checkLoginState() {
+		FB.getLoginStatus(function(response) {
+			statusChangeCallback(response);
+		});
+		}
+		// function testAPI(){
+		// 	FB.api('/me?fields=name,email', function(response){
+		// 		if (response && !response.error){
+		// 			sessionStorage.setItem("username",response.email);
+		// 			sessionStorage.setItem("email",response.email);
+		// 			console.log(response)
+		// 		}
+		// 	})
+		// }
+	  </script>
 
 </body>
 </html>

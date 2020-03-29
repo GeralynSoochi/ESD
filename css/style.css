@@ -127,6 +127,14 @@ ol {
 	color: #e0e3e4;
 }
 
+.submitted {
+	color: #3bc2f8;
+}
+
+.error {
+	color: #ff2a2a;
+}
+
 /*---------------------
   Commom elements
 -----------------------*/

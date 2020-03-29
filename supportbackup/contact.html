@@ -112,14 +112,9 @@
 	<!-- load for map
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWTIlluowDL-X4HbYQt3aDw_oi2JP0Krc&sensor=false"></script>
 	<script src="js/map.js"></script> -->
-	
-	<!-- <img src="https://maps.googleapis.com/maps/api/staticmap?center=Brooklyn+Bridge,New+York,NY&zoom=13&size=600x300&maptype=roadmap
-	&markers=color:blue%7Clabel:S%7C40.702147,-74.015794&markers=color:green%7Clabel:G%7C40.711614,-74.012318
-	&markers=color:red%7Clabel:C%7C40.718217,-73.998284
-	&key=AIzaSyA8ZW8YdrsokS9_pT1I74oZ3dwvGz2Og2U" /> -->
 
 	<script>
-		if (sessionStorage['username']){
+		if (sessionStorage['user']){
 			// console.log("logged in");
 			$('#user').html("<a href='home.html' id='logout'>Logout</a>");
 		
@@ -141,13 +136,13 @@
 
         $("#addTicketForm").click(async (event) => {
             event.preventDefault();
-			var username = sessionStorage['username']
+			var username = sessionStorage['user']
             var issueTitle = $('#issueTitle').val();
             var issueDetails = $('#issueDetails').val();
             var status= $('#status').val();
 			// var ticketid = $('#ticketid').val();
-            var serviceURL = "http://127.0.0.1:5010/CreateSupportTicket/";
-            console.log(username)
+            var serviceURL = "http://127.0.0.1:5010/support/";
+            
             try {
                 const response =
                  await fetch(
@@ -157,9 +152,10 @@
                 );
                 const data = await response.json();
                 if (response.ok) {
-                    $('.submitted').text("Ticket '" + data.issuetitle + "' has been submitted!");
-
+                    $('.submitted').text("Ticket '" + data.issueTitle + "' has been submitted!");
+                
                     } else {
+						console.log(data);
                 		showError(data.message);
 					}
                 } catch (error) {

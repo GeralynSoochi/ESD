@@ -21,15 +21,15 @@ accountURL = "http://localhost:5000/account/"
 class Ticket(db.Model):
     __tablename__ = 'ticket'
 
-    ticketid = db.Column(db.Integer, primary_key=True)
+    ticketid = db.Column(db.Integer, autoincrement=True, primary_key=True)
     issueTitle = db.Column(db.String(100), nullable=False)
     issueDetails = db.Column(db.String(), nullable=False)
     status = db.Column(db.String(10), nullable=False)
     dateOpen = db.Column(db.DateTime(), nullable=False)
     username = db.Column(db.String(100), nullable=False)
 
-    def __init__(self, ticketid, dateOpen, issueTitle, issueDetails, status, username):
-        self.ticketid = ticketid
+    def __init__(self, dateOpen, issueTitle, issueDetails, status, username):
+        # self.ticketid = ticketid
         self.dateOpen = dateOpen
         self.issueTitle = issueTitle
         self.issueDetails = issueDetails
@@ -40,15 +40,13 @@ class Ticket(db.Model):
         return {"ticketid": self.ticketid, "dateOpen": self.dateOpen, "issueTitle": self.issueTitle, "issueDetails": self.issueDetails, "status": self.status, "username": self.username}
 
 
-@app.route("/support/<int:ticketid>", methods=['POST'])
-def create_ticket(ticketid):
-    if (Ticket.query.filter_by(ticketid=ticketid).first()):
-        return jsonify({"message": "A ticket with ticketid '{}' already exists.".format(ticketid)}), 400
+@app.route("/support/", methods=['POST'])
+def create_ticket():
 
     data = request.get_json()
     dateOpen = date.today()
-    ticket = Ticket(ticketid, dateOpen, **data)
-
+    ticket = Ticket(dateOpen = dateOpen, issueTitle = data["issueTitle"], issueDetails = data["issueDetails"], status = data["status"], username = data["username"])
+    
     try:
         db.session.add(ticket)
         db.session.commit()
@@ -75,3 +73,6 @@ def retrieve_ticket(ticketid):
 
 if __name__ == '__main__':
     app.run(port=5010, debug=True)
+
+#create support ticket = composite
+#ticket msvc, acc msvc, email msvc

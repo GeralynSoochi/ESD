@@ -50,7 +50,7 @@
 			<a class="site-logo" href="index.html">
 				<img src="img/logo.png" alt="">
 			</a>
-			<div class="user-panel">
+			<div class="user-panel" id="user">
 				<a href="#">Login</a>  /  <a href="#">Register</a>
 			</div>
 			<!-- responsive -->
@@ -79,16 +79,21 @@
 						<h6 class="submitted"></h6>
 						<h6 id="error" class="error"></h6>
 						<h4 class="comment-title">Find Ticket</h4>
-							<div class="row">
-                            
-                                <input class="form-control mb-4" id="ticketid" type="text"
+                                <input id="ticketid" type="text"
                                       placeholder="Ticket ID">
-								<div class="col-lg-12">
                                     <button type="submit" id="findticket" class="site-btn btn-sm">Find</button></p>
-								</div>
 							</div>
 						</form>
-						<h6 id="ticketinfo"></h6>
+						<table class='table table-striped' id='infotable' border='1' style="display: none;">
+							<thead class=thead-dark>
+								<th style="width:10%">Ticket ID</th style="width:15%">
+								<th style="width:15%">Date Opened</th>
+								<th style="width:20%">Title</th>
+								<th style="width:40%">Description</th>
+								<th>Status</th>
+							</thead>
+						</table>
+						<p><h6 class="ticket" id="ticketinfo"></h6> </p>
 					</div>
 				</div>
 		</div>
@@ -120,6 +125,20 @@
 	<script src="js/map.js"></script> -->
 
 	<script>
+		if (sessionStorage['username']){
+			// console.log("logged in");
+			$('#user').html("<a href='home.html' id='logout'>Logout</a>");
+		
+		}else{
+			// console.log("not logged in");
+			window.location.href = "index.html";
+
+		}
+		//when user log out
+		$("#logout").click(async (event) => {
+			sessionStorage.clear();
+		});
+		
         // Helper function to display error message
         function showError(message) {
             $('#error').text(message);
@@ -127,7 +146,7 @@
         $("#findticket").click(async (event) => {
             event.preventDefault();
 			var ticketid = $('#ticketid').val();
-            var serviceURL = "http://127.0.0.1:5010/support" + "/" + ticketid;
+            var serviceURL = "http://127.0.0.1:5011/ticket" + "/" + ticketid;
             
             try {
                 const response =
@@ -142,9 +161,27 @@
                         showError('No Ticket Found.')
                     } else {
 						console.log(ticket)
-                        $('#ticketinfo').text(ticket.ticketid + ticket.dateOpen + ticket.issueTitle + ticket.issueDetails + ticket.status);
+						if (sessionStorage['username'] != ticket.username) {
+							showError('Error: You are unable to view this ticket.');
+						} else { 
+							foundTicket =
+							"<tbody>" +
+							"<tr>" +
+							"<td>" + ticket.ticketid + "</td>" +
+							"<td>" + ticket.dateOpen + "</td>" +
+							"<td>" + ticket.issueTitle + "</td>" +
+							"<td>" + ticket.issueDetails + "</td>" +
+							"<td>" + ticket.status + "</td>" +
+							"</tr>" +
+							"<tbody>";
+							$('#infotable').append(foundTicket);
+							$("#infotable").show();
+						}
 					}
-                }
+                } else {
+						console.log(data);
+                		showError(data.message);
+					}
                 } catch (error) {
                     // Errors when calling the service; such as network error, 
                     // service offline, etc

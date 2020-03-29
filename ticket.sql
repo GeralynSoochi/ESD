@@ -32,7 +32,7 @@ USE `ticket`;
 
 DROP TABLE IF EXISTS `ticket`;
 CREATE TABLE IF NOT EXISTS `ticket` (
-  `ticketid` int NOT NULL,
+  `ticketid` int NOT NULL AUTOINCREMENT,
   `issueTitle` varchar(100) NOT NULL,
   `issueDetails` varchar(100) NOT NULL,
   `status` varchar(10) NOT NULL,
