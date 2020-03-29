@@ -77,7 +77,6 @@
 									<input type="text" name="issueTitle" id="issueTitle" placeholder="Title">
 									<textarea name="issueDetails" id="issueDetails" placeholder="Message"></textarea>
 								</div><div class="col-lg-12">
-									<input type='hidden' name='status' id='status' value='open' />
 									<button type="submit" id="addTicketForm" class="site-btn btn-sm">Send</button></p>
 								</div>
 							</div>
@@ -137,6 +136,7 @@
 		// Helper function to display error message
         function showError(message) {
             $('#error').text(message);
+			$('#submitted').hide()
         }
 
         $("#addTicketForm").click(async (event) => {
@@ -144,8 +144,7 @@
 			var username = sessionStorage['username']
             var issueTitle = $('#issueTitle').val();
             var issueDetails = $('#issueDetails').val();
-            var status= $('#status').val();
-			// var ticketid = $('#ticketid').val();
+            var status = 'open'
             var serviceURL = "http://127.0.0.1:5010/CreateSupportTicket/";
             console.log(username)
             try {
@@ -156,11 +155,13 @@
                 }
                 );
                 const data = await response.json();
+				console.log(data)
                 if (response.ok) {
                     $('.submitted').text("Ticket '" + data.issuetitle + "' has been submitted!");
-
+					$('#error').hide()
                     } else {
                 		showError(data.message);
+						$('#error').show()
 					}
                 } catch (error) {
                     // Errors when calling the service; such as network error, 
@@ -168,6 +169,7 @@
 					
                     showError
                     ('There is a problem retrieving ticket data, please try again later.<br />'+error);
+					$('#error').show()
             
         } 
         })
