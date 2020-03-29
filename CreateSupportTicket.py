@@ -54,6 +54,7 @@ def send_ticket():
         send_text = telegramURL + bot_message
         response = requests.get(send_text)
         response = response.json()
+        print (response)
         if response["ok"] == False:
             return jsonify({"message": "Your ticket has been logged. We apologise in advance for any delays in support replies."}), 404
     except:
