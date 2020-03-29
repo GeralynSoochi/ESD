@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Game Warrior Template</title>
+	<title>Game Warrior</title>
 	<meta charset="UTF-8">
-	<meta name="description" content="Game Warrior Template">
+	<meta name="description" content="Game Warrior">
 	<meta name="keywords" content="warrior, game, creative, html">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- Favicon   
@@ -85,13 +85,7 @@
 							</div>
 						</form>
 						<table class='table table-striped' id='infotable' border='1' style="display: none;">
-							<thead class=thead-dark>
-								<th style="width:10%">Ticket ID</th style="width:15%">
-								<th style="width:15%">Date Opened</th>
-								<th style="width:20%">Title</th>
-								<th style="width:40%">Description</th>
-								<th>Status</th>
-							</thead>
+
 						</table>
 						<p><h6 class="ticket" id="ticketinfo"></h6> </p>
 					</div>
@@ -159,11 +153,18 @@
                     var ticket = data;
                     if (!ticket) {
                         showError('No Ticket Found.')
+						$("#infotable").hide();
+						$("#error").show();
                     } else {
 						console.log(ticket)
 						if (sessionStorage['username'] != ticket.username) {
 							showError('Error: You are unable to view this ticket.');
-						} else { 
+							$("#infotable").hide();
+							$("#error").show();
+						} else {
+							$('#infotable').text("");
+							headers = "<thead class=thead-dark> <th style='width:10%'>Ticket ID</th style='width:15%'> <th style='width:15%''>Date Opened</th><th style='width:20%'>Title</th><th style='width:40%''>Description</th><th>Status</th></thead>"
+							$('#infotable').append(headers);
 							foundTicket =
 							"<tbody>" +
 							"<tr>" +
@@ -176,6 +177,7 @@
 							"<tbody>";
 							$('#infotable').append(foundTicket);
 							$("#infotable").show();
+							$('#error').hide()
 						}
 					}
                 } else {
