@@ -21,32 +21,44 @@ def send_ticket():
     data = request.get_json()
 
     #get user details: account.py
-    r = requests.get(accountURL + data["username"], timeout=2)
-    result = json.loads(r.text.lower())
-    if r.status_code != requests.codes.ok: #return error message
-        return jsonify({"message": "Your username is invalid. Please check your login details."}), 404
-    print(result)
+    try:
+        r = requests.get(accountURL + data["username"], timeout=2)
+        result = json.loads(r.text.lower())
+        if r.status_code != requests.codes.ok: #return error message
+            return jsonify({"message": "Your username is invalid. Please check your login details."}), 404
+        print(result)
+    except:
+        return jsonify({"message": "Something went wrong on our end. Please try again later."}), 500
 
     #create ticket: ticket.py
-    r = requests.post(ticketURL, json = data)
-    ticket = json.loads(r.text.lower())
-    if r.status_code != 201: #return error message
-        return jsonify({"message": "An error occurred creating the ticket. Please check your ticket details."}), 500
-
+    try:
+        r = requests.post(ticketURL, json = data)
+        ticket = json.loads(r.text.lower())
+        if r.status_code != 201: #return error message
+            return jsonify({"message": "An error occurred creating the ticket. Please check your ticket details."}), 500
+    except:
+        return jsonify({"message": "Something went wrong on our end. Please try again later."}), 500
 
     #send email: emails.py
-    ticketdetails = {"ticketid": ticket["ticketid"], "dateOpen": ticket["dateopen"], "issueTitle": ticket["issuetitle"], "issueDetails": ticket["issuedetails"], "username": ticket["username"], "email": result["email"]}
-    r = requests.post(emailsURL, json = ticketdetails)
-    if r.status_code != requests.codes.ok: #return error message
-        return jsonify({"message": "Your ticket has been logged, however there was an issue with the email service. You might not receive an email."}), 404
+    try:
+        ticketdetails = {"ticketid": ticket["ticketid"], "dateOpen": ticket["dateopen"], "issueTitle": ticket["issuetitle"], "issueDetails": ticket["issuedetails"], "username": ticket["username"], "email": result["email"]}
+        r = requests.post(emailsURL, json = ticketdetails)
+        if r.status_code != requests.codes.ok: #return error message
+            return jsonify({"message": "Your ticket has been logged, however there was an issue with the email service. You might not receive an email."}), 404
+    except:
+        return jsonify({"message": "Your ticket has been logged, however there was an issue with the email service and you will not receive an email."}), 500
 
     #send telegram messages to support staff
-    bot_message = "User " +  ticket["username"] + " submitted a new ticket. The details are as follows:\nTicket ID: " + str(ticket["ticketid"]) + "\nIssue Title: " + ticket["issuetitle"] + "\nIssue Details: " + ticket["issuedetails"]
-    send_text = telegramURL + bot_message
-    response = requests.get(send_text)
-    response = response.json()
-    if response["ok"] == False:
-        return jsonify({"message": "Your ticket has been logged. We apologise in advance for any delays in support replies."}), 404
+    try:
+        bot_message = "User " +  ticket["username"] + " submitted a new ticket. \nThe details are:\nTicket ID: " + str(ticket["ticketid"]) + "\nIssue Title: " + ticket["issuetitle"] + "\nIssue Details: " + ticket["issuedetails"]
+        send_text = telegramURL + bot_message
+        response = requests.get(send_text)
+        response = response.json()
+        print (response)
+        if response["ok"] == False:
+            return jsonify({"message": "Your ticket has been logged. We apologise in advance for any delays in support replies."}), 404
+    except:
+        return jsonify({"message": "Your ticket has been logged. We apologise in advance for any delays in support replies."}), 500
 
     return jsonify(ticket), 201
 
