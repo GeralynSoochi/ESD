@@ -41,7 +41,7 @@ def send_ticket():
         return jsonify({"message": "Your ticket has been logged, however there was an issue with the email service. You might not receive an email."}), 404
 
     #send telegram messages to support staff
-    bot_message = "User " +  ticket["username"] + " submitted a new ticket. The details are as follows:\nTicket ID: " + str(ticket["ticketid"]) + "\nIssue Title: " + ticket["issuetitle"] + "\nIssue Details: " + ticket["issuedetails"]
+    bot_message = "User " +  ticket["username"] + " submitted a new ticket. \nThe details are as follows:\nTicket ID: " + str(ticket["ticketid"]) + "\nIssue Title: " + ticket["issuetitle"] + "\nIssue Details: " + ticket["issuedetails"]
     send_text = telegramURL + bot_message
     response = requests.get(send_text)
     response = response.json()

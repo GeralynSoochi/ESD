@@ -25,12 +25,13 @@ def sendemail():
   issueDetails = data["issueDetails"]
   username = data["username"]
   email = data["email"]
+  end = "<br></p><p><hr>To view the ticket, please login to the support ticket system <br></small>From: Your friendly Customer Support System</small> <br><hr></p>"
   
   content = {
     'Messages': [
       {
         "From": {
-          "Email": "scgoh.2018@sis.smu.edu.sg",
+          "Email": "geralynnn@gmail.com",
           "Name": "Geralyn"
         },
         "To": [
@@ -41,7 +42,7 @@ def sendemail():
         ],
         "Subject": "You opened a ticket.",
         "TextPart": "Here is your ticket",
-        "HTMLPart": "Your ticket details are as follows: <br> Title: " + issueTitle + "<br> TicketID: " + str(ticketid) + "<br> Description: " + issueDetails + "<br> Date Opened: " + str(dateOpen),
+        "HTMLPart": "<h3>Dear " + username + ",</h3><p>Your ticket details are as follows: </p><strong> Ticket ID: </strong>" + str(ticketid) + "<br><strong> Title: </strong>" + issueTitle + "<br><strong> Description: </strong>" + issueDetails + "<br><strong> Date Opened: </strong>" + str(dateOpen) + "<br>" + end,
         "CustomID": "AppGettingStartedTest"
       }
     ]

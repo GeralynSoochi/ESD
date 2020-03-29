@@ -79,16 +79,21 @@
 						<h6 class="submitted"></h6>
 						<h6 id="error" class="error"></h6>
 						<h4 class="comment-title">Find Ticket</h4>
-							<div class="row">
-                            
-                                <input class="form-control mb-4" id="ticketid" type="text"
+                                <input id="ticketid" type="text"
                                       placeholder="Ticket ID">
-								<div class="col-lg-12">
                                     <button type="submit" id="findticket" class="site-btn btn-sm">Find</button></p>
-								</div>
 							</div>
 						</form>
-						<h6 id="ticketinfo"><br></h6>
+						<table class='table table-striped' id='infotable' border='1' style="display: none;">
+							<thead class=thead-dark>
+								<th style="width:10%">Ticket ID</th style="width:15%">
+								<th style="width:15%">Date Opened</th>
+								<th style="width:20%">Title</th>
+								<th style="width:40%">Description</th>
+								<th>Status</th>
+							</thead>
+						</table>
+						<p><h6 class="ticket" id="ticketinfo"></h6> </p>
 					</div>
 				</div>
 		</div>
@@ -156,7 +161,22 @@
                         showError('No Ticket Found.')
                     } else {
 						console.log(ticket)
-                        document.getElementById("ticketinfo").innerHTML = "Ticket ID: " + ticket.ticketid + "<br>Date Open: " + ticket.dateOpen + "<br>Issue Title: " +ticket.issueTitle + "<br>Issue Details " + ticket.issueDetails + "<br>Ticket Status: " + ticket.status;
+						if (sessionStorage['username'] != ticket.username) {
+							showError('Error: You are unable to view this ticket.');
+						} else { 
+							foundTicket =
+							"<tbody>" +
+							"<tr>" +
+							"<td>" + ticket.ticketid + "</td>" +
+							"<td>" + ticket.dateOpen + "</td>" +
+							"<td>" + ticket.issueTitle + "</td>" +
+							"<td>" + ticket.issueDetails + "</td>" +
+							"<td>" + ticket.status + "</td>" +
+							"</tr>" +
+							"<tbody>";
+							$('#infotable').append(foundTicket);
+							$("#infotable").show();
+						}
 					}
                 } else {
 						console.log(data);
