@@ -48,7 +48,7 @@
 			<a class="site-logo" href="index.html">
 				<img src="img/logo.png" alt="">
 			</a>
-			<div class="user-panel">
+			<div class="user-panel" id="user">
 				<a href="#">Login</a>  /  <a href="#">Register</a>
 			</div>
 			<!-- responsive -->
@@ -155,8 +155,8 @@
 						<!-- Cart Buttons -->
 						<div class="cart_buttons d-flex flex-row align-items-start justify-content-start">
 							<div class="cart_buttons_inner ml-sm-auto d-flex flex-row align-items-start justify-content-start flex-wrap">
-								<div class="button button_clear trans_200"><a href="categories.html">clear cart</a></div>
-								<div class="button button_continue trans_200"><a href="categories.html">continue shopping</a></div>
+								<div class="button button_clear trans_200" id = "clearall"><a href="categories.html">clear cart</a></div>
+								<div class="button button_continue trans_200"><a href="game.html">continue shopping</a></div>
 							</div>
 						</div>
 					</div>
@@ -181,15 +181,43 @@
 									<div class="cart_extra_total_value ml-auto" id ="total_price"></div>
 								</li>
 							</ul>
-							<div class="checkout_button trans_200"><a href="http://127.0.0.1:5008">proceed to checkout</a></div>
+							<div class="checkout_button trans_200"><a href= "http://127.0.0.1:5008">proceed to checkout</a></div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	<!-- Footer section -->
+	<footer class="footer-section">
+		<div class="container">
+			<ul class="footer-menu">
+				<li><a href="index.html">Home</a></li>
+				<li><a href="review.html">Games</a></li>
+				<li><a href="contact.html">Contact</a></li>
+				<li><a href="cart.html">Cart</a></li>
+			</ul>
+		</div>
+	</footer>
+</body>
 	<script>
-		sessionStorage.setItem("user", 'zzz');
+		// check if user is logged in 
+		if (sessionStorage['username']){
+			// console.log("logged in");
+			$('#user').html("<a href='home.html' id='logout'>Logout</a>");
+		
+		}else{
+			// console.log("not logged in");
+			window.location.href = "index.html";
+			// $('#user').html("<a href='index.html'>Login</a>  /  <a href='signup.html'>Register</a>");
+		}
+		//when user log out
+		$("#logout").click(async (event) => {
+			sessionStorage.clear();
+		});
+	</script>
+	<script>
+		// sessionStorage.setItem("user", 'zzz');
 		// Helper function to display error message
 		function showError(message) {
 			// Hide the table and button in the event of error
@@ -205,19 +233,21 @@
 		$(async() => {      
 			//console.log('async');  
 			// Change serviceURL to your own
-			var serviceURL = "http://127.0.0.1:5005/cart/" + sessionStorage.getItem("user");
+			console.log(window.location.href);
+			sub_total = 0.0
+			var serviceURL = "http://127.0.0.1:5005/cart/" + sessionStorage.getItem("username");
 			try {
 				const response =
 				 await fetch(
 				   serviceURL, { method: 'GET' }
 				);
 				const data = await response.json();
-				var cart = data.cart; //the arr is in data.books of the JSON data
+				var cart = data.cart; //the arr is in the JSON data
 				// array or array.length are falsy
 				if (!cart || !cart.length) {
 					showError('Cart is empty')
 				} else {
-					// for loop to setup all table rows with obtained book data
+					// for loop to setup all table rows with obtained games data
 					var rows = "";
 					var sub_total = 0;
 					for (const item of cart) {
@@ -270,29 +300,31 @@
 				// Errors when calling the service; such as network error, 
 				// service offline, etc
 				showError
-			  ('There is a problem retrieving games data, please try again later.<br />'+error);
+			  	('There is a problem retrieving cart data, please try again later.<br />'+error);
 			   
 			} // error
 		});
 	</script>
 	<!-- button testing -->
 	<script>
-		sessionStorage.setItem("user", 'zzz');
+		// sessionStorage.setItem("user", 'zzz');
+		username = sessionStorage.getItem("username")
 		//button to delete
 		$(document).on('click', 'button[data-id]', function (e){
 			var requested_to = $(this).attr('data-id');
 			console.log(requested_to);
 			e.preventDefault();
-			var getURL = 'http://127.0.0.1:5005/cart/' + sessionStorage.getItem("user");
+			var getURL = 'http://127.0.0.1:5005/cart/' + username;
 			fetch(getURL, {method: 'GET'}).then(response =>  {
 				return response.json();
 			}).then(data => {
 				console.log(data);
-				var serviceURL = 'http://127.0.0.1:5005/cart/' + sessionStorage.getItem("user") + '/' + requested_to;
+				var serviceURL = 'http://127.0.0.1:5005/cart/' + username + '/' + requested_to;
 				fetch(serviceURL, {method: 'DELETE'}).then(response =>  {
 					return response.json();
 				}).then(data => {
 					console.log(data);
+					location.reload();
 				});
 			});
 		});
@@ -331,18 +363,12 @@
 		$('#pay').click(async (event) => {
 			window.location.href('http://127.0.0.1/5008');
 		});
+		$('#clearall').click(async (event) =>{
+		});
 	</script>
+	
 	<!-- Page section end -->
 
-	<!-- Footer section -->
-	<footer class="footer-section">
-		<div class="container">
-			<ul class="footer-menu">
-				<li><a href="index.html">Home</a></li>
-				<li><a href="review.html">Games</a></li>
-				<li><a href="contact.html">Contact</a></li>
-				<li><a href="cart.html">Cart</a></li>
-			</ul>
 	
 
 
@@ -353,5 +379,5 @@
 	<!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWTIlluowDL-X4HbYQt3aDw_oi2JP0Krc&sensor=false"></script>
 	<script src="js/map.js"></script> -->
 
-    </body>
+    
 </html>

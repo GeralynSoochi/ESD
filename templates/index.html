@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Checkout</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
 	<!-- <script src="js/jquery-3.2.1.min.js"></script> -->
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/owl.carousel.min.js"></script>
@@ -34,7 +35,8 @@
 
     <script src="https://www.paypalobjects.com/api/checkout.js"></script>
 <script>
-    sessionStorage.setItem("user", 'zzz');
+    // sessionStorage.setItem("user", 'zzz');
+    var username = Cookies.get("username")
     // Helper function to display error message
     function showError(message) {
         // Hide the table and button in the event of error
@@ -50,7 +52,9 @@
     $(async() => {      
         //console.log('async');  
         // Change serviceURL to your own
-        var serviceURL = "http://127.0.0.1:5005/cart/" + sessionStorage.getItem("user");
+        console.log(window.location.href)
+        var username = Cookies.get("username")
+        var serviceURL = "http://127.0.0.1:5005/cart/" + username;
         try {
             const response =
                 await fetch(
@@ -95,7 +99,7 @@
             
         } // error
     });
-    var username = 'zzz'
+    // var username = 'zzz'
     var total = 0
     $(window).on('load', function() {
         final_total = document.getElementById("total_price").innerHTML;
@@ -151,7 +155,8 @@
 					return response.json();
 				})
                 .then(function(){
-                    location.reload();
+                    // location.reload();
+                    window.location.replace('http://127.0.0.1/esd/cart.html');
                 })
             });
         }

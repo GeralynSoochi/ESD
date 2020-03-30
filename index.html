@@ -167,7 +167,7 @@
 						Cookies.set('remember', true, { expires: 14 });
 					} else {
 						// reset cookies
-						Cookies.set('username', undefined);
+						Cookies.set('username', username, { expires: 14 });
 						Cookies.set('password', undefined);
 						Cookies.set('remember', undefined);
 					}
