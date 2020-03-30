@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>GAME YO</title>
     <meta charset="UTF-8">
-    <title>Checkout</title>
+    <meta name="description" content="Game Warrior Template">
+	<meta name="keywords" content="warrior, game, creative, html">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
 	<!-- <script src="js/jquery-3.2.1.min.js"></script> -->
@@ -10,6 +13,20 @@
 	<script src="js/owl.carousel.min.js"></script>
 	<script src="js/jquery.marquee.min.js"></script>
     <script src="js/main.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i" rel="stylesheet">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        .cart_extra_total_title {
+            font-weight: bold;
+        }
+        #total_price{
+            font-weight: bold;
+            font-size: larger;
+        }
+        *{
+            font-family: sans-serif;
+        }
+    </style>
 
 </head>
 <body>
@@ -18,7 +35,7 @@
 		<table id="cartTable" class='table table-striped' border='1'>
 			<thead class='clear'>
 				<tr>
-					<th>Image</th>
+					<!-- <th>Image</th> -->
 					<th>Name</th>
 					<th>Description</th>
 					<th>Price</th>
@@ -26,10 +43,11 @@
 			</thead>
 		</table>
     </div>
-    
+    <br>
     <!-- <li class="d-flex flex-row align-items-center justify-content-start"> -->
         <div class="cart_extra_total_title">Total</div>
         <div class="cart_extra_total_value ml-auto" id ="total_price"></div>
+        <br>
     <!-- </li> -->
     <div id="paypal-button"></div>
 
@@ -52,7 +70,6 @@
     $(async() => {      
         //console.log('async');  
         // Change serviceURL to your own
-        console.log(window.location.href)
         var username = Cookies.get("username")
         var serviceURL = "http://127.0.0.1:5005/cart/" + username;
         try {
@@ -73,7 +90,7 @@
                     var name = item.name + "_button";
                     //console.log(name);
                     eachRow =
-                        "<td>" + item.imageLink + "</td>" +
+                        // "<td><img src= ../" + item.imageLink + " alt=game></td>" +
                         "<td>" + item.name + "</td>" +
                         "<td>" + item.description + "</td>" +
                         "<td>" + item.price + "</td>";

@@ -155,7 +155,7 @@
 						<!-- Cart Buttons -->
 						<div class="cart_buttons d-flex flex-row align-items-start justify-content-start">
 							<div class="cart_buttons_inner ml-sm-auto d-flex flex-row align-items-start justify-content-start flex-wrap">
-								<div class="button button_clear trans_200" id = "clearall"><a href="categories.html">clear cart</a></div>
+								<div class="button button_clear trans_200" id = "clearall"><a href="#">clear cart</a></div>
 								<div class="button button_continue trans_200"><a href="game.html">continue shopping</a></div>
 							</div>
 						</div>
@@ -233,7 +233,6 @@
 		$(async() => {      
 			//console.log('async');  
 			// Change serviceURL to your own
-			console.log(window.location.href);
 			sub_total = 0.0
 			var serviceURL = "http://127.0.0.1:5005/cart/" + sessionStorage.getItem("username");
 			try {
@@ -254,7 +253,7 @@
 						var name = item.name + "_button";
 						//console.log(name);
 						eachRow =
-							"<td>" + item.imageLink + "</td>" +
+							"<td><img src=" + item.imageLink + " alt=game></td>" +
 							"<td>" + item.name + "</td>" +
 							"<td>" + item.description + "</td>" +
 							"<td>" + item.price + "</td>" +
@@ -364,6 +363,25 @@
 			window.location.href('http://127.0.0.1/5008');
 		});
 		$('#clearall').click(async (event) =>{
+			var serviceURL = "http://127.0.0.1:5005/cart/delete/"+username;
+			try {
+				const response =
+				await fetch(
+				serviceURL, { method: 'DELETE' }
+				);
+				const data = await response.json();
+				// console.log(data.message);
+				if (data.message == 'success'){
+					location.reload();
+				}
+
+				
+			} catch (error) {
+				// Errors when calling the service; such as network error, 
+				// service offline, etc
+				showError
+				('There is a problem clearing, please try again later.<br />'+error);
+			}
 		});
 	</script>
 	
