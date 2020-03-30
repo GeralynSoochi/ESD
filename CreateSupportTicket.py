@@ -51,8 +51,8 @@ def send_ticket():
     #send telegram messages to support staff
     try:
         bot_message = "User " +  ticket["username"] + " submitted a new ticket. \nThe details are:\nTicket ID: " + str(ticket["ticketid"]) + "\nIssue Title: " + ticket["issuetitle"] + "\nIssue Details: " + ticket["issuedetails"]
-        send_text = telegramURL + bot_message
-        response = requests.get(send_text)
+        # send_text = telegramURL + bot_message
+        response = requests.get(telegramURL + bot_message)
         response = response.json()
         print (response)
         if response["ok"] == False:
