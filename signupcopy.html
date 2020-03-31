@@ -187,15 +187,14 @@ $('#btnRegister').click(function (e){
 			return response.json();
 		}).then(data => {
 		console.log(data);
-		if (data['email']){
+		if (data['message'] == "success"){
 			sessionStorage.setItem("username",$('#username').val());
 			Cookies.set('username', username, { expires: 14 });
 			sessionStorage.setItem("email",$('#email').val());
 			sessionStorage.setItem("password",$('#password').val());
 			sessionStorage.setItem("phoneNumber",$('#phoneNumber').val());
-			console.log("printing2")
-			window.location = 'verifyaccount.html';
-			console.log("printing")
+			window.location.replace('verifyaccount.html');
+
 		}
 		else{
 			showError(data['message']);

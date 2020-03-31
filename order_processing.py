@@ -21,7 +21,7 @@ def receivePayment():
     # prepare a queue for receiving messages
     channelqueue = channel.queue_declare(queue="payment", durable=True) # 'durable' makes the queue survive broker restarts
     queue_name = channelqueue.method.queue
-    channel.queue_bind(exchange=exchangename, queue=queue_name, routing_key='paymet.info') # bind the queue to the exchange via the key
+    channel.queue_bind(exchange=exchangename, queue=queue_name, routing_key='payment.info') # bind the queue to the exchange via the key
 
     # set up a consumer and start to wait for coming messages
     channel.basic_consume(queue=queue_name, on_message_callback=callback, auto_ack=True)

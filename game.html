@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zxx">
 <head>
-	<title>GAME </title>
+	<title>Game On</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- Favicon -->   
@@ -131,7 +131,7 @@
 // sessionStorage.setItem("user", 'zzz');
 $.ajax({
     method: "GET",
-    url: "http://127.0.0.1:5000/game",
+    url: "http://localhost:8000/api/v1/game",
     context: "application/json",
     success: function (data){
 		var rows = "";
@@ -163,7 +163,7 @@ $(document).on('click', 'button[data-id]', function (e){
 	var requested_to = $(this).attr('data-id');
 	console.log(requested_to);
 	e.preventDefault();
-	var getURL = 'http://127.0.0.1:5000/game/' + requested_to;
+	var getURL = 'http://localhost:8000/api/v1/game/' + requested_to;
 	fetch(getURL, {method: 'GET'}).then(response =>  {
 		return response.json();
 	}).then(data => {
