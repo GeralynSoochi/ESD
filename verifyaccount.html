@@ -75,7 +75,7 @@
 </body><script>
 $('#btnVerify').click(function (e){
 	e.preventDefault();
-	var serviceURL = 'http://localhost:5000/verifyaccount';
+	var serviceURL = 'http://localhost:5003/verifyaccount';
                 var request_body = {
 					token: $('#token').val(),
 					phoneNumber: sessionStorage.getItem("phoneNumber"),
@@ -101,7 +101,7 @@ $('#btnVerify').click(function (e){
 					 if (data['message'] == "success"){
 						sessionStorage.clear();
 						sessionStorage.setItem("username", data['username'])
-					 	window.location.replace("http://localhost/git-esd/ESD/home");
+					 	window.location.replace("http://localhost/esd/ESD/home");
 
 					 }
 
