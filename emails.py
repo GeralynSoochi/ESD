@@ -25,14 +25,14 @@ def sendemail():
   issueDetails = data["issueDetails"]
   username = data["username"]
   email = data["email"]
-  end = "<br></p><p><hr>To view the ticket, please login to the support ticket system <br></small>From: Your friendly Customer Support System</small> <br><hr></p>"
+  end = "<br></p><p><hr>To view the ticket, please login to the support ticket system <br></small>From: Your friendly Customer Support Team From Game On</small> <br><hr></p>"
   
   content = {
     'Messages': [
       {
         "From": {
           "Email": "geralynnn@gmail.com",
-          "Name": "Geralyn"
+          "Name": "Game On Support Team"
         },
         "To": [
           {

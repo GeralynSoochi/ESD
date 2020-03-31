@@ -2,14 +2,15 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 
+
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/cart'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
  
 db = SQLAlchemy(app)
 CORS(app)
-
-
+ 
+ 
 class Cart(db.Model):
     __tablename__ = 'cart'
  
@@ -30,13 +31,9 @@ class Cart(db.Model):
         return {"username": self.username, "name": self.name, "description": self.description, "price": self.price, "imageLink": self.imageLink}
  
  
-# @app.route("/cart", methods=['GET'])
-# def get_all():
-#     return jsonify({"cart": [cart.json() for cart in Cart.query.all()]})
-
-@app.route("/cart/<string:username>", methods=['GET'])
-def get_all(username):
-    return jsonify({"cart": [cart.json() for cart in Cart.query.filter_by(username = username)]})
+@app.route("/cart", methods=['GET'])
+def get_all():
+    return jsonify({"cart": [cart.json() for cart in Cart.query.all()]})
 
 @app.route("/cart", methods=['POST'])
 def create_cart():
@@ -71,14 +68,6 @@ def find_by_username(username):
         return jsonify(cart.json())
     return jsonify({"message": "Item not found."}), 404
 
-@app.route("/cart/delete/<string:username>", methods=["DELETE"])
-def delete_by_user(username):
-    remove_cart = Cart.query.filter_by(username = username).all()
-    for item in remove_cart:
-        db.session.delete(item)
-        db.session.commit()
-
-    return jsonify({"message" : "success"}), 200
 
  
 if __name__ == '__main__':

@@ -47,7 +47,7 @@
 			<a class="site-logo" href="index.html">
 				<img src="img/gameon.png" alt="">
 			</a>
-			<div class="user-panel">
+			<div class="user-panel" id="user">
 				<a href="#">Login</a>  /  <a href="#">Register</a>
 			</div>
 			<!-- responsive -->
@@ -58,7 +58,7 @@
 			<nav class="main-menu">
 				<ul>
 					<li><a href="home.html">Home</a></li>
-					<li><a href="review.html">Games</a></li>
+					<li><a href="game.html">Games</a></li>
 					<li><a href="contact.html">Contact</a></li>
 					<li><a href="cart.html">Cart</a></li>
 				</ul>
@@ -111,10 +111,11 @@
 		<div class="container">
 			<ul class="footer-menu">
 				<li><a href="index.html">Home</a></li>
-				<li><a href="review.html">Games</a></li>
+				<li><a href="game.html">Games</a></li>
 				<li><a href="contact.html">Contact</a></li>
 			</ul>
-	
+		</div>
+	</footer>
 
 
 	<!--====== Javascripts & Jquery ======-->
@@ -127,7 +128,7 @@
 
 
 <script>
-sessionStorage.setItem("user", 'chenyudineng');
+// sessionStorage.setItem("user", 'zzz');
 $.ajax({
     method: "GET",
     url: "http://127.0.0.1:5000/game",
@@ -167,7 +168,7 @@ $(document).on('click', 'button[data-id]', function (e){
 		var serviceURL = 'http://127.0.0.1:5005/cart';
 		//needa get the info from the game table?
 		var request_body = {
-			username: sessionStorage.getItem("user"),
+			username: sessionStorage.getItem("username"),
 			name: data.name,
 			description: data.description,
 			price: data.price,
@@ -247,5 +248,21 @@ $(async() => {
            
         } // error
     });*/
+</script>
+<script>
+	// check if user is logged in 
+	if (sessionStorage['username']){
+			// console.log("logged in");
+			$('#user').html("<a href='home.html' id='logout'>Logout</a>");
+		
+		}else{
+			// console.log("not logged in");
+			window.location.href = "index.html";
+			// $('#user').html("<a href='index.html'>Login</a>  /  <a href='signup.html'>Register</a>");
+		}
+		//when user log out
+		$("#logout").click(async (event) => {
+			sessionStorage.clear();
+		});
 </script>
 </html>
