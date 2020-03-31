@@ -63,6 +63,9 @@ create table account (
 
 insert into account (username, password, email, phone) values ('ted','esd2020','ted@gmail.com','86141346');
 
+drop database if exists ticket;
+create database ticket;
+use ticket;
 DROP TABLE IF EXISTS ticket;
 CREATE TABLE IF NOT EXISTS ticket (
   `ticketid` int(11) NOT NULL AUTO_INCREMENT,
