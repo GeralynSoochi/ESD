@@ -156,6 +156,9 @@ $.ajax({
 });
 
 //add button
+$(document).on('click', 'button[data-id]', function (){
+	alert('Added to cart')
+	});
 $(document).on('click', 'button[data-id]', function (e){
 	var requested_to = $(this).attr('data-id');
 	console.log(requested_to);
