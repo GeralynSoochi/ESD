@@ -62,3 +62,14 @@ create table account (
 );
 
 insert into account (username, password, email, phone) values ('ted','esd2020','ted@gmail.com','86141346');
+
+DROP TABLE IF EXISTS ticket;
+CREATE TABLE IF NOT EXISTS ticket (
+  `ticketid` int(11) NOT NULL AUTO_INCREMENT,
+  `issueTitle` varchar(150) NOT NULL,
+  `issueDetails` varchar(300) NOT NULL,
+  `status` varchar(10) NOT NULL,
+  `dateOpen` varchar(15) NOT NULL,
+  `username` varchar(100) NOT NULL,
+  PRIMARY KEY (`ticketid`)
+)
