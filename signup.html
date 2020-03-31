@@ -19,10 +19,10 @@
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
 <!--===============================================================================================-->
+	<!-- <link rel="stylesheet" href="css/owl.carousel.css"/>	 -->
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" href="css/bootstrap.min.css"/>
 	<link rel="stylesheet" href="css/font-awesome.min.css"/>
-	<!-- <link rel="stylesheet" href="css/owl.carousel.css"/> -->
 	<link rel="stylesheet" href="css/style.css"/>
 	<link rel="stylesheet" href="css/animate.css"/>
 	<link rel="stylesheet" type="text/css" href="css/main.css">
@@ -132,7 +132,7 @@
 <!--===============================================================================================-->
 	<script src="vendor/select2/select2.min.js"></script>
 <!--===============================================================================================-->
-	<script src="js/main.js"></script>
+	<!-- <script src="js/main.js"></script> -->
 
 </body>
 <script>
@@ -162,33 +162,26 @@ function showError(message) {
 	$('#errormsg').append(message);
 }
 $('#btnRegister').click(function (e){
-	e.preventDefault();
-	var serviceURL = 'http://localhost:5003/signup'+'/'+$('#username').val();
-	var request_body = {
-		username: $.trim($('#username').val()),
-		password: $.trim($('#password').val()),
-		email: $.trim($('#email').val()),
-		phoneNumber: $.trim($('#phoneNumber').val())
-	};
-	// console.log(request_body);
-	var request_param = {
-		mode: 'cors',
-		method: 'POST',
-		headers:{
-			'Content-Type': 'application/json;charset=utf8'
-		},
-		body: JSON.stringify(request_body)
-	}
-	fetch(serviceURL, request_param).then(response =>  {
-		return response.json();
-	}).then(data => {
-		console.log(data);
-		if (data['message'] == "success"){
-		sessionStorage.setItem("username",$('#username').val());
-		sessionStorage.setItem("email",$('#email').val());
-		sessionStorage.setItem("password",$('#password').val());
-		sessionStorage.setItem("phoneNumber",$('#phoneNumber').val());
-		window.location.href='verifyaccount.html';
+				e.preventDefault();
+				//var serviceURL = 'http://localhost:5000/signup';
+				var serviceURL = 'http://localhost:5000/signup';
+                var request_body = {
+					//username: $('#').val(),
+					//email: $('#').val(),
+					phoneNumber: $('#phoneNumber').val()
+                
+                };
+                var request_param = {
+                    mode: 'cors',
+                    method: 'POST',
+                    headers:{
+                        'Content-Type': 'application/json;charset=utf8'
+                    },
+                    body: JSON.stringify(request_body)
+                }
+				fetch(serviceURL, request_param).then(response =>  {
+					return response.json();
+					
 
 		}
 		else{

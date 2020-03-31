@@ -97,7 +97,7 @@ def verifyaccount():
             return jsonify({"message" : "success", "username" : username}), 200
             
         else:
-                return jsonify({"message": "message dont work"}), 400
+                return jsonify({"message": "OTP is incorrect"}), 400
 
 
     #return render_template("verifyaccount.html")
