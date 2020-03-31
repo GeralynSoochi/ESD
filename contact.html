@@ -157,7 +157,7 @@
                 const data = await response.json();
 				console.log(data)
                 if (response.ok) {
-                    $('.submitted').text("Ticket '" + data.issuetitle + "' has been submitted!");
+                    $('.submitted').text("Ticket '" + data.issuetitle + "' has been submitted! Your ticket ID is " + data.ticketid + ".");
 					$('#error').hide()
                     } else {
                 		showError(data.message);
