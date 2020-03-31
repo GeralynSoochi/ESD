@@ -7,9 +7,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/account'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 #app.config.from.object('config')
-# api = AuthyApiClient('RpvEtSmOuQHVfDYe2UkRj50ustyfT028')
-# app.secret_key = 'Foobarj823!42vs#46Jd_d3_Zaylk@'
-api = AuthyApiClient('4tYKyCOlMme0A0nXpqk2hoK68TOdBies')
+api = AuthyApiClient('RpvEtSmOuQHVfDYe2UkRj50ustyfT028')
 app.secret_key = 'Foobarj823!42vs#46Jd_d3_Zaylk@'
 app.config.from_object(__name__)
 db = SQLAlchemy(app)
@@ -52,18 +50,13 @@ def signup(username):
         # phoneNumber =data
         #session['phoneNumber'] = phoneNumber
         #test = session.get
+        api.phones.verification_start(phone , "+65" , via="sms")
+        account = Account(username, password, email,phone)
         try:
-            api.phones.verification_start(phone , "+65" , via="sms")
-            account = Account(username, password, email,phone)
-            print("success")
+            db.session.add(account)
+            db.session.commit()
         except:
-            print("fail")
-            return jsonify({"message": "An error occurred sending the OTP. Please try again later"}), 500
-        # try:
-        #     db.session.add(account)
-        #     db.session.commit()
-        # except:
-        #     return jsonify({"message": "An error occurred creating the account."}), 500
+            return jsonify({"message": "An error occurred creating the account."}), 500
 
         return jsonify(account.json()), 201
         # return jsonify({"message": "success"}), 200
@@ -80,7 +73,6 @@ def verifyaccount():
         #if request.method == "POST":
         #token = request.form.get("token")
         data = request.json
-        print(data)
         #phoneNumber = session.get('phoneNumber')
         
         token = data['token']
@@ -88,27 +80,24 @@ def verifyaccount():
         
 
         verification = api.phones.verification_check(phoneNumber, "+65" , token)
-        print(verification)
-
         if verification.ok():
-            username = data['username'] 
+            username = data['fullName'] 
             email = data['email']
             password = data['password']
-            # if (Account.query.filter_by(phone=phoneNumber).first()):
-            #     return jsonify({"message": "An account with  " + phoneNumber + "already exists."}), 400
+            if (Account.query.filter_by(phone=phoneNumber).first()):
+                return jsonify({"message": "An account with  " + phoneNumber + "already exists."}), 400
             newAccount = Account(username, password,email,phoneNumber)
-            # #test = 0
+            #test = 0
             try:
                 db.session.add(newAccount)
                 db.session.commit()
-                return jsonify({"message": "success"}), 200
                 #test = newAccount.id
             except:
                 return jsonify({"message": "An error occurred creating the account."}), 500    
-            # return jsonify({"message" : "success"}), 200
+            return jsonify({"message" : "success", "username" : username}), 200
             
         else:
-            return jsonify({"message": "otp is wrong"}), 400
+                return jsonify({"message": "OTP is incorrect"}), 400
 
 
     #return render_template("verifyaccount.html")

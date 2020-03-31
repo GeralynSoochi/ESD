@@ -127,16 +127,8 @@
 <!--===============================================================================================-->
 	<script src="vendor/select2/select2.min.js"></script>
 <!--===============================================================================================-->
-	<script src="js/main.js"></script>
-	<script>	
-		if (Cookies.get("remember") == 'true'){
-			$('#username').val(Cookies.get("username"));
-			pw = (CryptoJS.AES.decrypt(Cookies.get("password").toString(),"sekretkey")).toString(CryptoJS.enc.Utf8);
-
-			$('#password').val(pw);
-			$('#ckb1').prop("checked",true)
-		}
-		
+	<!-- <script src="js/main.js"></script> -->
+	<script>
 		function showError(message) {
 			$('#errormsg').empty();
 			$('#errormsg').append(message);
