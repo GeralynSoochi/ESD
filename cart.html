@@ -172,10 +172,10 @@
 									<div class="cart_extra_total_title">Subtotal</div>
 									<div class="cart_extra_total_value ml-auto" ></div>
 								</li> -->
-								<li class="d-flex flex-row align-items-center justify-content-start">
+								<!-- <li class="d-flex flex-row align-items-center justify-content-start">
 									<div class="cart_extra_total_title">Shipping</div>
 									<div class="cart_extra_total_value ml-auto">Free</div>
-								</li>
+								</li> -->
 								<li class="d-flex flex-row align-items-center justify-content-start">
 									<div class="cart_extra_total_title">Total</div>
 									<div class="cart_extra_total_value ml-auto" id ="total_price"></div>
@@ -443,7 +443,10 @@
                 .then(function(){
                     // location.reload();
                     // window.location.replace('http://127.0.0.1/esd/cart.html');
-					location.reload()
+					setTimeout(function() {
+						location.reload()					
+					}, 2000) ;
+					alert('Payment Successful')
                 })
             });
         }
