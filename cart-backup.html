@@ -3,8 +3,6 @@
 <head>
 	<title>Game On</title>
 	<meta charset="UTF-8">
-	<meta name="description" content="Game Warrior Template">
-	<meta name="keywords" content="warrior, game, creative, html">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- Favicon -->   
 	<link href="img/favicon.ico" rel="shortcut icon"/>
@@ -20,11 +18,6 @@
 	<link rel="stylesheet" type="text/css" href="styles/cart.css">
 	<link rel="stylesheet" type="text/css" href="styles/cart_responsive.css">
 
-
-	<!--[if lt IE 9]>
-	  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-	  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-	<![endif]-->
 
 </head>
 <body>
@@ -76,35 +69,7 @@
 				<div class="col">
 					<div class="cart_container">
 						
-						<!-- Cart Bar -->
-						<!-- <div class="cart_bar">
-							<ul class="cart_bar_list item_list d-flex flex-row align-items-center justify-content-end">
-								<li class="mr-auto">Product</li>
-								
-								<li>Price</li>
-							</ul>
-						</div> -->
 
-						<!-- Cart Items -->
-						<!-- <div class="cart_items">
-							<ul class="cart_items_list"> -->
-
-								<!-- Cart Item -->
-								<!-- <li class="cart_item item_list d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-lg-end justify-content-start">
-									<div class="product d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-start mr-auto">
-										<div><div class="product_number">1</div></div>
-										<div><div class="product_image"><img src="images/cart_item_1.jpg" alt=""></div></div>
-										<div class="product_name_container">
-											<div class="product_name"><a href="product.html">Cool Flufy Clothing without Stripes</a></div>
-											<div class="product_text">Second line for additional info</div>
-										</div>
-									</div> -->
-									
-<!-- 								
-									<div class="product_total product_text"><span>Total: </span>$3.99</div>
-								</li>
-							</ul>
-						</div> -->
 	<div id="main-container" class="container">
 		<h1 class="display-4">Cart</h1>
 		<table id="cartTable" class='table table-striped' border='0'>
@@ -121,36 +86,7 @@
 	</div>
 
 	
-						
-						<!--TEST TABLE-->
-						<!-- <script>
-						console.log('hi');
-						$.ajax({
-							method: "GET",
-							url: "http://127.0.0.1:5000/cart",
-							context: "application/json",
-							success: function (data){
-								var rows = "";
-								var games = data.games; 
-										for (var game of games) {
-											eachRow =
-												"<div class = 'col-md-6'>" +
-												"<div class = 'review-item'>" + 
-												"<div id ='sGame'>" +
-												"<img src=" + game.imageLink + " alt=game>" +
-												"<h4>" + game.name + "</h4>" +
-												"<p>" + game.description + "</p>" +
-												"<p>$" + game.price + "</p>" +
-												"<button class='site-btn btn-sm'>Add to cart</button>" + 
-												"</div><div></div>";
-						
-											rows += eachRow + "</div></div>";
-										}
-										// add all the rows to the table
-										$('.row').append(rows);
-							}
-						});
-						</script> -->
+					
 
 						<!-- Cart Buttons -->
 						<div class="cart_buttons d-flex flex-row align-items-start justify-content-start">
@@ -230,35 +166,7 @@
 							//"<td>" + "<button class='site-btn btn-sm' id=" + name + ">Delete</button>" + "</td>";
 							"<td>" + "<button class='site-btn btn-sm' data-id='" + item.name + "'>Delete</button>" + "</td>";
 							sub_total += item.price;
-							//console.log(sub_total);
-							//button to delete
-							console.log(name);
-							// $(document).on('click', 'button[data-id]', function (e){
-							// 	var requested_to = $(this).attr('data-id');
-							// 	console.log('hello');
-							// 	e.preventDefault();
-							// 	var serviceURL = 'http://127.0.0.1:5005/cart/delete';
-							// 	var request_body = {
-							// 		//needa take from session
-							// 		//username: sessionStorage.getItem("username"),
-							// 		username: 'abc',
-							// 		name: item.name,
-							// 		description: item.description,
-							// 		price: item.price,
-							// 		imageLink: item.imageLink
-							// 	};
-							// 	var request_param = {
-							// 		mode: 'cors',
-							// 		method: 'DELETE',
-							// 		headers:{
-                        	// 			'Content-Type': 'application/json;charset=utf8'
-                    		// 		},
-                    		// 		body: JSON.stringify(request_body)
-							// 	}
-							// 	fetch(serviceURL, request_param).then(response =>  {
-							// 		return response.json()
-							// 	});
-							// });
+						
 						rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
 					}
 					// add all the rows to the table
@@ -309,14 +217,6 @@
 				<li><a href="cart.html">Cart</a></li>
 			</ul>
 	
-
-
-
-
-
-	<!-- load for map -->
-	<!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWTIlluowDL-X4HbYQt3aDw_oi2JP0Krc&sensor=false"></script>
-	<script src="js/map.js"></script> -->
 
     </body>
 </html>

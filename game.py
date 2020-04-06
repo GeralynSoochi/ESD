@@ -6,8 +6,8 @@ from os import environ
 
 
 app = Flask(__name__)
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/game'
-app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/game'
+# app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
  
 db = SQLAlchemy(app)
@@ -49,5 +49,5 @@ def find_by_id(id):
     return jsonify({"message": "Game not found."}), 404
 
 if __name__ == '__main__':
-    # app.run(port=5000, debug=True)
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(port=5000, debug=True)
+    #app.run(host='0.0.0.0', port=5000, debug=True)

@@ -90,11 +90,6 @@
 						</span>
 					</div>
 
-					<!-- <a href="#" class="btn-face m-b-10">
-						<i class="fa fa-facebook-official"></i>
-						Facebook
-					</a> -->
-
 					<fb:login-button 
 					
 					id="fb-btn"
@@ -103,10 +98,6 @@
 					onlogin="checkLoginState();" class="text-center w-full p-t-42 p-b-22">
 					facebook
 					</fb:login-button>
-
-					<!-- <div class="fb-login-button" data-width="" data-size="large" 
-					data-button-type="continue_with" data-layout="default" 
-					data-auto-logout-link="false" data-use-continue-as="false"></div> -->
 
 					<div class="text-center w-full p-t-115"
 					style="margin-top: -100px;">
@@ -138,27 +129,7 @@
 
 </body>
 <script>
-// $('#btnRegister').click(function(){
-//     console.log("Set msg clicked!");
-//     var webFormData = new WebFormData($('#phoneNumber').val());
-//     console.dir(webFormData);
-//     $.ajax({
-//     type : "POST",
-// 	cors : true,
-// 	headers: {
-//             'Access-Control-Allow-Origin': '*',
-//           },
-//     url : "http://127.0.0.1:5000/signup",
-//     data: JSON.stringify(webFormData, null, '\t'),
-//     contentType: 'application/json;charset=UTF-8',
-// 	success: function(data){
-//         console.dir(data);
-//     }
-//     });
-// });
-// function WebFormData(message){
-//     this.message = message
-// }
+
 function showError(message) {
 	$('#errormsg').empty();
 	$('#errormsg').append(message);
@@ -204,20 +175,6 @@ $('#btnRegister').click(function (e){
 
 	})
 });
-
-	// try {
-	//     const response =  fetch(serviceURL, request_param);
-	//     const data =  response.json();
-	//     if (response.ok){
-	//         //const data = response.json();
-	//         console.log('babi bodho')
-
-	//     }else{
-	//         console.log("error");
-	//     }
-	// } catch(error){
-	//     console.log(error);
-	// }
 
 </script>
 <script>
@@ -272,14 +229,6 @@ $('#btnRegister').click(function (e){
 		statusChangeCallback(response);
 	});
 	}
-	// function testAPI(){
-	// 	FB.api('/me?fields=name,email', function(response){
-	// 		if (response && !response.error){
-	// 			sessionStorage.setItem("username",response.email);
-	// 			sessionStorage.setItem("email",response.email);
-	// 			console.log(response)
-	// 		}
-	// 	})
-	// }
+
   </script>
 </html>
