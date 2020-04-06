@@ -68,14 +68,9 @@
 		<div class="container">
 			<h4 class="comment-title">Browse Games</h4>
 			<div class="row">
-
-				
-
-	<input class="form-control mb-4" id="gameSearch" type="text"
-		  placeholder="Type something to search games">
-	<div id = 'errormsg'></div>
-			</tbody>
+				<input class="form-control mb-4" id="gameSearch" type="text" placeholder="Type something to search games">
 			</div>
+			<div id = 'errormsg'></div>
 		</div>
 	</section>
 	<!-- Page section end -->
@@ -86,7 +81,7 @@
 	<footer class="footer-section">
 		<div class="container">
 			<ul class="footer-menu">
-				<li><a href="index.html">Home</a></li>
+				<li><a href="home.html">Home</a></li>
 				<li><a href="game.html">Games</a></li>
 				<li><a href="contact.html">Contact</a></li>
 				<li><a href="cart.html">Cart</a></li>
@@ -101,145 +96,144 @@
 	<script src="js/owl.carousel.min.js"></script>
 	<script src="js/jquery.marquee.min.js"></script>
 	<script src="js/main.js"></script>
-    </body>
+</body>
 
 
 <script>
+	$.ajax({
+		method: "GET",
+		// url: "http://localhost:8000/api/v1/game",
+		url: "http://localhost:5000/game",
+		context: "application/json",
+		success: function (data){
+			var rows = "";
+			var games = data.games; 
+					for (var game of games) {
+						eachRow =
+							"<div class = 'col-md-6'>" +
+							"<div class = 'review-item'>" + 
+							"<img src=" + game.imageLink + " alt=game>" +
+							"<div class = 'title'>" + game.name + "</div>" +
+							"<p>" + game.description + "</p>" +
+							"<p>" + game.price + "</p>" +
+							"<button class='site-btn btn-sm' data-id='" + game.id + "'>Add to cart</button>" + 
+							"</div><div></div>";
 
-$.ajax({
-    method: "GET",
-    // url: "http://localhost:8000/api/v1/game",
-	url: "http://localhost:5000/game",
-    context: "application/json",
-    success: function (data){
-		var rows = "";
-		var games = data.games; 
-                for (var game of games) {
-                    eachRow =
-						"<div class = 'col-md-6'>" +
-						"<div class = 'review-item'>" + 
-						"<img src=" + game.imageLink + " alt=game>" +
-                        "<div class = 'title'>" + game.name + "</div>" +
-                        "<p>" + game.description + "</p>" +
-                        "<p>" + game.price + "</p>" +
-						"<button class='site-btn btn-sm' data-id='" + game.id + "'>Add to cart</button>" + 
-						"</div><div></div>";
-
-                    rows += eachRow + "</div></div>";
-                }
-                $('.row').append(rows);
-    }
-});
-
-// function showError(message) {
-// 			// Hide the table and button in the event of error
-// 			$('#gameSearch').hide();
-// 			// Display an error under the main container
-// 			$('#errormsg')
-// 				.append("<label>"+message+"</label>");
-// 		}
-	
-// $(async() => {      
-// 		// var serviceURL = "http://localhost:8000/api/v1/game";
-// 			var serviceURL = "http://localhost:5000/game";
-// 			try {
-// 				const response =
-// 				 await fetch(
-// 				   serviceURL, { method: 'GET' }
-// 				);
-// 				const data = await response.json();
-// 				var games = data.games; //the arr is in the JSON data
-// 				// array or array.length are false
-// 				if (!games || !games.length) {
-// 					showError('Game is empty')
-// 				} else {
-// 					// for loop to setup all table rows with obtained games data
-// 					var rows = "";
-// 					for (const game of games) {
-// 						eachRow =
-// 						"<div class = 'col-md-6'>" +
-// 						"<div class = 'review-item'>" + 
-// 						"<img src=" + game.imageLink + " alt=game>" +
-//                         "<div class = 'title'>" + game.name + "</div>" +
-//                         "<p>" + game.description + "</p>" +
-//                         "<p>" + game.price + "</p>" +
-// 						"<button class='site-btn btn-sm' data-id='" + game.id + "'>Add to cart</button>" + 
-// 						"</div><div></div>";
-
-//                     rows += eachRow + "</div></div>";
-// 					}
-// 					$('.row').append(rows);
-// 				}
-				
-// 			} catch (error) {
-// 				// Errors when calling the service; such as network error, 
-// 				// service offline, etc
-// 				showError
-// 			  	('There is a problem retrieving game data, please try again later.<br />'+error);
-			   
-// 			} // error
-// 		});
-
-
-
-//add button
-$(document).on('click', 'button[data-id]', function (){
-	alert('Added to cart')
-	});
-$(document).on('click', 'button[data-id]', function (e){
-	var requested_to = $(this).attr('data-id');
-	console.log(requested_to);
-	e.preventDefault();
-	var getURL = 'http://localhost:8000/api/v1/game/' + requested_to;
-	fetch(getURL, {method: 'GET'}).then(response =>  {
-		return response.json();
-	}).then(data => {
-		console.log(data);
-		var serviceURL = 'http://127.0.0.1:5005/cart';
-		var request_body = {
-			username: sessionStorage.getItem("username"),
-			name: data.name,
-			description: data.description,
-			price: data.price,
-			imageLink: data.imageLink
-		};
-		var request_param = {
-			mode: 'cors',
-			method: 'POST',
-			headers:{
-				'Content-Type': 'application/json;charset=utf8'
-			},
-			body: JSON.stringify(request_body)
+						rows += eachRow + "</div></div>";
+					}
+					$('.row').append(rows);
 		}
-		fetch(serviceURL, request_param).then(response =>  {
+	});
+
+	function showError(message) {
+		// Hide the table and button in the event of error
+		$('#gameSearch').hide();
+		// Display an error under the main container
+		$('#errormsg').append("<label>"+message+"</label>");
+	}
+
+	// $(async() => {      
+	// // var serviceURL = "http://localhost:8000/api/v1/game";
+	// 	alert("test");
+	// 	console.log("hello");
+	// 	var serviceURL = "http://localhost:5000/game";
+	// 	console.log("hello");
+	// 	try {
+	// 		const response =
+	// 		 await fetch(
+	// 			serviceURL, { method: 'GET' }
+	// 		);
+	// 		const data = await response.json();
+	// 		var games = data.games; //the arr is in the JSON data
+	// 		// array or array.length are false
+	// 		if (!games || !games.length) {
+	// 			showError('Game is empty')
+	// 		} else {
+	// 			// for loop to setup all table rows with obtained games data
+	// 			var rows = "";
+	// 			for (const game of games) {
+	// 				eachRow =
+	// 				"<div class = 'col-md-6'>" +
+	// 				"<div class = 'review-item'>" + 
+	// 				"<img src=" + game.imageLink + " alt=game>" +
+	// 				"<div class = 'title'>" + game.name + "</div>" +
+	// 				"<p>" + game.description + "</p>" +
+	// 				"<p>" + game.price + "</p>" +
+	// 				"<button class='site-btn btn-sm' data-id='" + game.id + "'>Add to cart</button>" + 
+	// 				"</div><div></div>";
+
+	// 			rows += eachRow + "</div></div>";
+	// 			}
+	// 			$('.row').append(rows);
+	// 		}
+			
+	// 	} catch (error) {
+	// 		// Errors when calling the service; such as network error, 
+	// 		// service offline, etc
+	// 		showError
+	// 		('There is a problem retrieving game data, please try again later.<br />'+error);
+		
+	// 	} // error
+	// });
+</script>
+<script>
+	//add button
+	$(document).on('click', 'button[data-id]', function (){
+		alert('Added to cart')
+		});
+	$(document).on('click', 'button[data-id]', function (e){
+		var requested_to = $(this).attr('data-id');
+		console.log(requested_to);
+		e.preventDefault();
+		var getURL = 'http://localhost:8000/api/v1/game/' + requested_to;
+		fetch(getURL, {method: 'GET'}).then(response =>  {
 			return response.json();
 		}).then(data => {
 			console.log(data);
+			var serviceURL = 'http://127.0.0.1:5005/cart';
+			var request_body = {
+				username: sessionStorage.getItem("username"),
+				name: data.name,
+				description: data.description,
+				price: data.price,
+				imageLink: data.imageLink
+			};
+			var request_param = {
+				mode: 'cors',
+				method: 'POST',
+				headers:{
+					'Content-Type': 'application/json;charset=utf8'
+				},
+				body: JSON.stringify(request_body)
+			}
+			fetch(serviceURL, request_param).then(response =>  {
+				return response.json();
+			}).then(data => {
+				console.log(data);
+			});
 		});
+
 	});
 
-});
 
+	$(async() => {
+		$('#gameSearch').keyup(function(){
+		
+			// Search text
+			var text = $(this).val().toLowerCase();
+			
+			// Hide all content class element
+			$('.col-md-6').hide();
 
-$(document).ready(function(){
-  $('#gameSearch').keyup(function(){
- 
-   // Search text
-   var text = $(this).val().toLowerCase();
- 
-   // Hide all content class element
-   $('.col-md-6').hide();
-
-   // Search 
-   $('.review-item .title').each(function(){
- 
-    if($(this).text().toLowerCase().indexOf(""+text+"") != -1 ){
-     $(this).closest('.col-md-6').show();
-    }
-  });
- });
-});
-
+			// Search 
+			$('.review-item .title').each(function(){
+			
+				if($(this).text().toLowerCase().indexOf(""+text+"") != -1 ){
+				$(this).closest('.col-md-6').show();
+				}
+			});
+		});
+	});
 </script>
 <script>
 	// check if user is logged in 
