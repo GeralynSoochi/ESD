@@ -91,12 +91,12 @@ def delete(username, name):
 
     return jsonify({"message" : "success"}), 200
 
-@app.route("/cart/<string:username>", methods = ['GET'])
-def find_by_username(username):
-    cart = Cart.query.filter_by(username=username).first()
-    if cart:
-        return jsonify(cart.json())
-    return jsonify({"message": "Item not found."}), 404
+# @app.route("/cart/<string:username>", methods = ['GET'])
+# def find_by_username(username):
+#     cart = Cart.query.filter_by(username=username).first()
+#     if cart:
+#         return jsonify(cart.json())
+#     return jsonify({"message": "Item not found."}), 404
 
 @app.route("/cart/delete/<string:username>", methods=["DELETE"])
 def delete_by_user(username):
@@ -178,13 +178,6 @@ def send_noti():
     message = "Payment success"
 
     # send the message
-    # always inform Monitoring for logging no matter if successful or not
-    # channel.basic_publish(exchange=exchangename, routing_key="payment.info", body=message)
-        # By default, the message is "transient" within the broker;
-        #  i.e., if the monitoring is offline or the broker cannot match the routing key for the message, the message is lost.
-        # If need durability of a message, need to declare the queue in the sender (see sample code below).
-    
-    # inform Error handler
     channel.queue_declare(queue='payment', durable=True) # make sure the queue used by the error handler exist and durable
     channel.queue_bind(exchange=exchangename, queue='payment', routing_key='payment.info') # make sure the queue is bound to the exchange
     channel.basic_publish(exchange=exchangename, routing_key="payment.info", body=message,
