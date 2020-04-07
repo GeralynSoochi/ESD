@@ -121,6 +121,116 @@
         function showError(message) {
             $('#error').text(message);
         }
+
+		if (sessionStorage['ticketid']) {
+			$(async() => {   
+			var ticketid = sessionStorage['ticketid']
+            var serviceURL = "http://127.0.0.1:5011/ticket" + "/" + ticketid;
+            
+            try {
+                const response =
+                 await fetch(
+                   serviceURL, { method: 'GET' }
+                );
+                const data = await response.json();
+                if (response.ok) {
+                    console.log(data);
+                    var ticket = data;
+                    if (!ticket) {
+                        showError('No Ticket Found.')
+						$("#infotable").hide();
+						$("#error").show();
+                    } else {
+						console.log(ticket)
+						if (sessionStorage['username'] != ticket.username) {
+							showError('Error: You are unable to view this ticket.');
+							$("#infotable").hide();
+							$("#error").show();
+						} else {
+							$('#infotable').text("");
+							headers = "<thead class=thead-dark> <th style='width:10%'>Ticket ID</th> <th style='width:13%''>Date Opened</th><th style='width:22%'>Title</th><th style='width:45%'>Description</th><th style='width:10%'>Status</th></thead>"
+							$('#infotable').append(headers);
+							foundTicket =
+							"<tbody>" +
+							"<tr>" +
+							"<td>" + ticket.ticketid + "</td>" +
+							"<td>" + ticket.dateOpen + "</td>" +
+							"<td>" + ticket.issueTitle + "</td>" +
+							"<td>" + ticket.issueDetails + "</td>" +
+							"<td>" + ticket.status + "</td>" +
+							"</tr>" +
+							"<tbody>";
+							$('#infotable').append(foundTicket);
+							$("#infotable").show();
+							$('#error').hide()
+						}
+					}
+                } else {
+						console.log(data);
+                		showError(data.message);
+						$("#infotable").hide();
+						$('#error').show();
+					}
+                } catch (error) {
+                    // Errors when calling the service; such as network error, 
+                    // service offline, etc
+					
+                    showError
+                    ('There is a problem retrieving ticket data, please try again later.<br />'+error);
+            
+        } 
+        })
+		} else {
+
+		$(async() => {           
+            var serviceURL = "http://127.0.0.1:5011/ticket" + "/get/" + sessionStorage['username'];
+    
+            try {
+                const response =
+                await fetch(
+                    serviceURL, { method: 'GET' }
+                );
+                const data = await response.json();
+                var tickets = data.tickets; //the arr is in data.books of the JSON data
+                // array or array.length are false
+                if (!tickets || !tickets.length) {
+                    showError('You do not seem to have any tickets.')
+                } else {
+                    // for loop to setup all table rows with obtained book data
+                    var rows = "";
+					$('#infotable').text("");
+					headers = "<thead class=thead-dark> <th style='width:10%'>Ticket ID</th> <th style='width:13%''>Date Opened</th><th style='width:22%'>Title</th><th style='width:45%'>Description</th><th style='width:10%'>Status</th></thead>"
+					$('#infotable').append(headers);
+							
+                    for (const ticket of tickets) {
+                        foundTicket =
+							"<tbody>" +
+							"<tr>" +
+							"<td>" + ticket.ticketid + "</td>" +
+							"<td>" + ticket.dateOpen + "</td>" +
+							"<td>" + ticket.issueTitle + "</td>" +
+							"<td>" + ticket.issueDetails + "</td>" +
+							"<td>" + ticket.status + "</td>" +
+							"</tr>" +
+							"<tbody>";
+                        rows += foundTicket;
+                    }
+                    // add all the rows to the table
+                    $('#infotable').append(rows);
+					$("#infotable").show();
+					$('#error').hide()
+                }
+            } catch (error) {
+                // Errors when calling the service; such as network error, 
+                // service offline, etc
+                showError
+                  ('There is a problem retrieving tickets data, please try again later.<br />'+error);
+               
+            } // error
+        });
+		}
+
+
         $("#findticket").click(async (event) => {
             event.preventDefault();
 			var ticketid = $('#ticketid').val();
@@ -147,7 +257,7 @@
 							$("#error").show();
 						} else {
 							$('#infotable').text("");
-							headers = "<thead class=thead-dark> <th style='width:10%'>Ticket ID</th style='width:15%'> <th style='width:15%''>Date Opened</th><th style='width:20%'>Title</th><th style='width:40%''>Description</th><th>Status</th></thead>"
+							headers = "<thead class=thead-dark> <th style='width:10%'>Ticket ID</th> <th style='width:13%''>Date Opened</th><th style='width:22%'>Title</th><th style='width:45%'>Description</th><th style='width:10%'>Status</th></thead>"
 							$('#infotable').append(headers);
 							foundTicket =
 							"<tbody>" +

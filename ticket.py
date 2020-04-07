@@ -60,6 +60,11 @@ def retrieve_ticket(ticketid):
         return jsonify(ticket.json())
     return jsonify({"message": "Ticket not found."}), 404
 
+@app.route("/ticket/get/<string:username>")
+def retrieve_tickets(username):
+    print(jsonify({"tickets": [ticket.json() for ticket in Ticket.query.filter_by(username=username).all()]}))
+    return jsonify({"tickets": [ticket.json() for ticket in Ticket.query.filter_by(username=username).all()]})
+
 
 if __name__ == '__main__':
     app.run(port=5011, debug=True)
