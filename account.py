@@ -55,7 +55,7 @@ def signup(username):
             return jsonify({"message": "An error occurred sending the OTP. Please try again later"}), 500
         return jsonify(account.json()), 201
  
-@app.route("/verifyaccount", methods =["GET", "POST"])
+@app.route("/verifyaccount", methods =["POST"])
 def verifyaccount():
         data = request.json
         token = data['token']
