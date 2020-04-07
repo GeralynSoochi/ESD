@@ -80,9 +80,6 @@ def verifyaccount():
         else:
             return jsonify({"message": "otp is wrong"}), 400
 
-@app.route("/account")
-def get_all():
-    return jsonify({"account": [account.json() for account in Account.query.all()]})
 
 @app.route("/account/<string:username>")
 def login(username):

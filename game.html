@@ -70,7 +70,7 @@
 			<div class="row">
 				<input class="form-control mb-4" id="gameSearch" type="text" placeholder="Type something to search games">
 			</div>
-			<div id = 'errormsg'></div>
+			<h6 id="error" class="error"></h6>
 		</div>
 	</section>
 	<!-- Page section end -->
@@ -100,14 +100,26 @@
 
 
 <script>
+
+	function showError(message) {
+			// Hide the table and button in the event of error
+			$('#gameSearch').hide();
+			// Display an error under the main container
+			$('#error')
+				.text(message);
+		}
+
 	$.ajax({
 		method: "GET",
-		url: "http://localhost:8000/api/v1/game",
-		// url: "http://localhost:5000/game",
+		// url: "http://localhost:8000/api/v1/game",
+		url: "http://localhost:5000/game",
 		context: "application/json",
 		success: function (data){
 			var rows = "";
 			var games = data.games; 
+			if (!games || !games.length) {
+					showError('Currently no game in the database')
+				} else {
 					for (var game of games) {
 						eachRow =
 							"<div class = 'col-md-6'>" +
@@ -120,17 +132,21 @@
 							"</div><div></div>";
 
 						rows += eachRow + "</div></div>";
-					}
+					} }
 					$('.row').append(rows);
+		},
+		error: function() {
+			$('#gameSearch').hide();
+			$('#error').text('There is a problem retrieving game data, please try again later.');
 		}
 	});
 
-	function showError(message) {
-		// Hide the table and button in the event of error
-		$('#gameSearch').hide();
-		// Display an error under the main container
-		$('#errormsg').append("<label>"+message+"</label>");
-	}
+	// function showError(message) {
+	// 	// Hide the table and button in the event of error
+	// 	$('#gameSearch').hide();
+	// 	// Display an error under the main container
+	// 	$('#errormsg').append("<label>"+message+"</label>");
+	// }
 
 	// $(async() => {      
 	// // var serviceURL = "http://localhost:8000/api/v1/game";
