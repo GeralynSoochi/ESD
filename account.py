@@ -64,11 +64,8 @@ def fb(username):
         phone = data['phoneNumber'] 
         newaccount = Account(username, password, email,phone)
         try:
-            print("here")
             db.session.add(newaccount)
-            print("here2")
             db.session.commit()
-            print("here3")
             return jsonify({"message": "success"}), 200
         except:
             return jsonify({"message": "An error occurred creating the account."}), 500    
