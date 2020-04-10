@@ -29,16 +29,16 @@ def receivePayment():
 
 def callback(channel, method, properties, body): # required signature for the callback; no return
     # delete_cart(username)
+    process(str(body))
     print("Payment Success")
 
-# def processOrderError(order):
-#     print("Processing an order error:")
-#     print(order)
+def process(body):
+    body = body[1:]
+    body = body.strip("'")
+    body = body + "\n"
+    with open('processed.txt', "a") as f:
+	    f.write(body)
 
-# def delete_cart(username):
-#     urllib.request.urlopen('http://127.0.0.1:8005/cart/delete/'+ str(username))
-#     if (urllib.request.urlopen(req)):
-#         print("Deleted")
 
 if __name__ == "__main__":  # execute this program only if it is run as a script (not by 'import')
     print("This is " + os.path.basename(__file__) + ": processing payment...")

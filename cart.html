@@ -139,8 +139,7 @@
 		$("#logout").click(async (event) => {
 			sessionStorage.clear();
 		});
-	</script>
-	<script>
+
 		function showError(message) {
 			// Hide the table and button in the event of error
 			$('#cartTable').hide();
@@ -190,9 +189,7 @@
 			   
 			} // error
 		});
-	</script>
-	<!-- button testing -->
-	<script>
+
 		username = sessionStorage.getItem("username")
 		//button to delete
 		$(document).on('click', 'button[data-id]', function (e){
@@ -213,9 +210,7 @@
 				});
 			});
 		});
-	</script>
 
-	<script>
 		$('#pay').click(async (event) => {
 			window.location.href('http://127.0.0.1/5008');
 		});
@@ -264,6 +259,8 @@
             return paypal.request.post(EXECUTE_PAYMENT_URL, {
                 paymentID: data.paymentID,
                 payerID:   data.payerID,
+				user: username,
+				amt: final_total
             }).then(function(res) {
 
                 console.log(res.success)

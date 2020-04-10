@@ -147,13 +147,16 @@ def payment():
 @app.route('/execute', methods=['POST'])
 def execute():
     success = False
+    data = request.get_json()
+    username = request.form['user']
+    amt = request.form['amt']
     
     payment = paypalrestsdk.Payment.find(request.form['paymentID'])
 
     if payment.execute({'payer_id' : request.form['payerID']}):
         print('Execute success!')
         success = True
-        send_noti()
+        send_noti(username, amt)
 
     else:
         print(payment.error)
@@ -175,7 +178,7 @@ def send_noti():
     channel.exchange_declare(exchange=exchangename, exchange_type='direct')
 
     # prepare the message body content
-    message = "Payment success"
+    message = user + " has paid $" + str(amt)
 
     # send the message
     channel.queue_declare(queue='payment', durable=True) # make sure the queue used by the error handler exist and durable

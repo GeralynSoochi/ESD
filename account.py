@@ -63,7 +63,7 @@ def verifyaccount():
         
 
         verification = api.phones.verification_check(phoneNumber, "+65" , token)
-        print(verification)
+        
 
         if verification.ok():
             username = data['username'] 
