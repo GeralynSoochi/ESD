@@ -208,6 +208,7 @@ $('#btnRegister').click(function (e){
 				if (response && !response.error){
 					sessionStorage.setItem("username",response.email);
 					sessionStorage.setItem("email",response.email);
+					sessionStorage.setItem("create","yes");
 					console.log(response)
 					console.log('Logged in and authenticated');
 					window.location.href = "home.html";
