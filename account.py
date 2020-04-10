@@ -54,7 +54,25 @@ def signup(username):
             print("fail")
             return jsonify({"message": "An error occurred sending the OTP. Please try again later"}), 500
         return jsonify(account.json()), 201
- 
+
+@app.route("/fb/<string:username>", methods =["POST"])
+def fb(username):
+        data = request.json
+        username = data['username']
+        password = data['password']
+        email = data['email']
+        phone = data['phoneNumber'] 
+        newaccount = Account(username, password, email,phone)
+        try:
+            print("here")
+            db.session.add(newaccount)
+            print("here2")
+            db.session.commit()
+            print("here3")
+            return jsonify({"message": "success"}), 200
+        except:
+            return jsonify({"message": "An error occurred creating the account."}), 500    
+
 @app.route("/verifyaccount", methods =["POST"])
 def verifyaccount():
         data = request.json

@@ -179,6 +179,38 @@
 		$("#logout").click(async (event) => {
 			sessionStorage.clear();
 		});
+
+		if (sessionStorage['create']) {
+			console.log("in the loop") 
+			var serviceURL = 'http://localhost:5003/fb/'+sessionStorage['username'];
+			var request_body = {
+			username: sessionStorage['username'],
+			email: sessionStorage['username'],
+			password: 123,
+			phoneNumber: 123
+			};
+
+			var request_param = { method: 'POST', headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(request_body)
+			}
+			fetch(serviceURL, request_param).then(response =>  {
+				return response.json();
+			}).then(data => {
+			console.log(data);
+			if (data['email']){
+				sessionStorage.setItem("username",$('#username').val());
+				Cookies.set('username', username, { expires: 14 });
+				sessionStorage.setItem("email",$('#email').val());
+				sessionStorage.setItem("password",$('#password').val());
+				sessionStorage.setItem("phoneNumber",$('#phoneNumber').val());
+				
+			}
+			else{
+				showError(data['message']);
+				}
+
+
+	})}
 		
 	</script>
     </body>
