@@ -141,56 +141,6 @@
 		}
 	});
 
-	// function showError(message) {
-	// 	// Hide the table and button in the event of error
-	// 	$('#gameSearch').hide();
-	// 	// Display an error under the main container
-	// 	$('#errormsg').append("<label>"+message+"</label>");
-	// }
-
-	// $(async() => {      
-	// // var serviceURL = "http://localhost:8000/api/v1/game";
-	// 	alert("test");
-	// 	console.log("hello");
-	// 	var serviceURL = "http://localhost:5000/game";
-	// 	console.log("hello");
-	// 	try {
-	// 		const response =
-	// 		 await fetch(
-	// 			serviceURL, { method: 'GET' }
-	// 		);
-	// 		const data = await response.json();
-	// 		var games = data.games; //the arr is in the JSON data
-	// 		// array or array.length are false
-	// 		if (!games || !games.length) {
-	// 			showError('Game is empty')
-	// 		} else {
-	// 			// for loop to setup all table rows with obtained games data
-	// 			var rows = "";
-	// 			for (const game of games) {
-	// 				eachRow =
-	// 				"<div class = 'col-md-6'>" +
-	// 				"<div class = 'review-item'>" + 
-	// 				"<img src=" + game.imageLink + " alt=game>" +
-	// 				"<div class = 'title'>" + game.name + "</div>" +
-	// 				"<p>" + game.description + "</p>" +
-	// 				"<p>" + game.price + "</p>" +
-	// 				"<button class='site-btn btn-sm' data-id='" + game.id + "'>Add to cart</button>" + 
-	// 				"</div><div></div>";
-
-	// 			rows += eachRow + "</div></div>";
-	// 			}
-	// 			$('.row').append(rows);
-	// 		}
-			
-	// 	} catch (error) {
-	// 		// Errors when calling the service; such as network error, 
-	// 		// service offline, etc
-	// 		showError
-	// 		('There is a problem retrieving game data, please try again later.<br />'+error);
-		
-	// 	} // error
-	// });
 </script>
 <script>
 	//add button
