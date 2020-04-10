@@ -56,10 +56,6 @@ class Cart(db.Model):
     def json(self):
         return {"username": self.username, "name": self.name, "description": self.description, "price": self.price, "imageLink": self.imageLink}
  
- 
-# @app.route("/cart", methods=['GET'])
-# def get_all():
-#     return jsonify({"cart": [cart.json() for cart in Cart.query.all()]})
 
 @app.route("/cart/<string:username>", methods=['GET'])
 def get_all(username):
@@ -91,13 +87,6 @@ def delete(username, name):
 
     return jsonify({"message" : "success"}), 200
 
-# @app.route("/cart/<string:username>", methods = ['GET'])
-# def find_by_username(username):
-#     cart = Cart.query.filter_by(username=username).first()
-#     if cart:
-#         return jsonify(cart.json())
-#     return jsonify({"message": "Item not found."}), 404
-
 @app.route("/cart/delete/<string:username>", methods=["DELETE"])
 def delete_by_user(username):
     remove_cart = Cart.query.filter_by(username = username).all()
@@ -125,13 +114,6 @@ def payment():
             "return_url": "http://localhost:3000/payment/execute",
             "cancel_url": "http://localhost:3000/"},
         "transactions": [{
-            # "item_list": {
-            #     "items": [{
-            #         "name": "testitem",
-            #         "sku": "12345",
-            #         "price": "500.00",
-            #         "currency": "USD",
-            #         "quantity": 1}]},
             "amount": {
                 "total": data['total'],
                 "currency": "SGD"},
