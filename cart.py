@@ -163,7 +163,7 @@ def execute():
 
     return jsonify({'success' : success})
 
-def send_noti():
+def send_noti(user, amt):
     # default username / password to the borker are both 'guest'
     hostname = "localhost" # default broker hostname. Web management interface default at http://localhost:15672
     port = 5672 # default messaging port.
